@@ -51,8 +51,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                 self.performSegue(withIdentifier: "login", sender: self)
                 
             }
-            
-            
+
         })
         
         

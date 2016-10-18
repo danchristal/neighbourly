@@ -2,3 +2,5 @@
 /Pods
 /GoogleService-Info.plist
 /*.*~
+*.xcuserstate
+xcuserdata/

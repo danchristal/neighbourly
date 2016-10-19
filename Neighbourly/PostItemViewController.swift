@@ -68,7 +68,7 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
             let childUpdates = ["/posts/\(key)/": post]
             self.ref.updateChildValues(childUpdates)
         }
-        dismiss(animated: true, completion: nil)
+        tabBarController?.selectedIndex = 0 
     }
     
     override func didReceiveMemoryWarning() {

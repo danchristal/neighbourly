@@ -25,16 +25,18 @@ class ItemCollectionViewController: UICollectionViewController {
         //get reference to database
         ref = FIRDatabase.database().reference()
         
-        //initialize posts model
-        
         //listen for when posts get added
         let postRef = ref.database.reference().child("posts")
         
-        postRef.observe(FIRDataEventType.value, with: { (snapshot) in
-            if let newItem = self.itemFromSnapshot(snapshot) {
-                self.itemList.append(newItem)
-            }
+        postRef.observe(.value, with: { (snapshot) in
+            var newItems = [Item]()
             
+            for child in snapshot.children {
+                let item = Item(snapshot: child as! FIRDataSnapshot)
+                newItems.append(item)
+            }
+            self.itemList = newItems
+            self.collectionView?.reloadData()
         })
         
     }
@@ -43,10 +45,9 @@ class ItemCollectionViewController: UICollectionViewController {
     func itemFromSnapshot(_ snapshot: FIRDataSnapshot) -> Item? {
         guard let itemDict = snapshot.value as? [String:String] else {return nil}
         guard let description = itemDict["description"] else {return nil}
-        guard let username = itemDict["username"] else {return nil}
         guard let imageURL = itemDict["imageURL"] else {return nil}
         
-        return Item(imageURL: imageURL, description: description, username: username)
+        return Item(imageURL: imageURL, description: description)
         
     }
     
@@ -80,11 +81,22 @@ class ItemCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ItemCollectionViewCell
         
-        // Configure the cell
-        
-        return cell
+        let item = itemList[indexPath.item]
+        itemCell.descriptionLabel.text = item.description
+        let url = URL(string: item.imageURL)!
+        itemCell.downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (location, response, error) in
+            
+            guard let image = try! UIImage(data: Data(contentsOf: location!)) else {return}
+            
+            DispatchQueue.main.async {
+                itemCell.imageView.image = image
+            }
+        })
+        itemCell.downloadTask?.resume()
+
+        return itemCell
     }
     
     // MARK: UICollectionViewDelegate

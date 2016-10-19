@@ -9,10 +9,6 @@
 import UIKit
 import FirebaseDatabase
 
-
-
-
-
 class ItemCollectionViewController: UICollectionViewController {
     //MARK: Properties
     private let reuseIdentifier = "itemCell"
@@ -33,7 +29,8 @@ class ItemCollectionViewController: UICollectionViewController {
             
             for child in snapshot.children {
                 let item = Item(snapshot: child as! FIRDataSnapshot)
-                newItems.append(item)
+                newItems.insert(item, at: 0)
+                //newItems.append(item)
             }
             self.itemList = newItems
             self.collectionView?.reloadData()
@@ -41,31 +38,6 @@ class ItemCollectionViewController: UICollectionViewController {
         
     }
     
-    
-    func itemFromSnapshot(_ snapshot: FIRDataSnapshot) -> Item? {
-        guard let itemDict = snapshot.value as? [String:String] else {return nil}
-        guard let description = itemDict["description"] else {return nil}
-        guard let imageURL = itemDict["imageURL"] else {return nil}
-        
-        return Item(imageURL: imageURL, description: description)
-        
-    }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using [segue destinationViewController].
-     // Pass the selected object to the new view controller.
-     }
-     */
     
     // MARK: UICollectionViewDataSource
     
@@ -88,6 +60,7 @@ class ItemCollectionViewController: UICollectionViewController {
         let url = URL(string: item.imageURL)!
         itemCell.downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (location, response, error) in
             
+            self.itemList[indexPath.item].localURL = location
             guard let image = try! UIImage(data: Data(contentsOf: location!)) else {return}
             
             DispatchQueue.main.async {
@@ -95,11 +68,15 @@ class ItemCollectionViewController: UICollectionViewController {
             }
         })
         itemCell.downloadTask?.resume()
-
+        
         return itemCell
     }
     
     // MARK: UICollectionViewDelegate
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showDetail", sender: self)
+    }
     
     /*
      // Uncomment this method to specify if the specified item should be highlighted during tracking
@@ -129,5 +106,23 @@ class ItemCollectionViewController: UICollectionViewController {
      
      }
      */
+    
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if(segue.identifier == "showDetail") {
+            
+            let paths = self.collectionView?.indexPathsForSelectedItems
+            let path = paths?.first
+            let detailViewController = segue.destination as! ItemDetailViewController
+            detailViewController.item = self.itemList[(path?.item)!]
+        }
+        
+        
+    }
+    
     
 }

@@ -13,6 +13,7 @@ struct Item {
 
     var description: String
     var imageURL: String
+    var localURL: URL?
     //var username: String
     //let hashtags: Set? = nil
     

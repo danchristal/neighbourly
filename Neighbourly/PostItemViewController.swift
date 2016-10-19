@@ -55,7 +55,7 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
                 print(error.localizedDescription)
             }
             
-            //store downloadURL
+            //store downloadURL crashes if offline
             self.imageURL = metaData!.downloadURL()!.absoluteString
             //self.ref.child("posts").child(key).updateChildValues(["imageURL": self.imageURL])
             

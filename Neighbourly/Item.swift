@@ -7,18 +7,25 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
-class Item {
+struct Item {
 
     var description: String
     var imageURL: String
-    var username: String
+    //var username: String
     //let hashtags: Set? = nil
     
-    init(imageURL: String, description: String, username: String) {
+    init(imageURL: String, description: String) {
         self.description = description
         self.imageURL = imageURL
-        self.username = username
+    }
+    
+    init(snapshot: FIRDataSnapshot){
+        let snapshotValue = snapshot.value as! [String:String]
+        description = snapshotValue["description"]!
+        imageURL = snapshotValue["imageURL"]!
+        
     }
     
 }

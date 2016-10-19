@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultphoto_2x" translatesAutoresizingMaskIntoConstraints="NO" id="CtO-ka-xzH">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultphoto_2x" translatesAutoresizingMaskIntoConstraints="NO" id="CtO-ka-xzH">
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="320" id="614-Nh-QAh"/>
@@ -57,7 +57,7 @@
                             <constraint firstAttribute="trailing" secondItem="CtO-ka-xzH" secondAttribute="trailing" constant="10" id="gY5-qY-ofb"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="New Post" selectedImage="714-camera" id="F47-mi-Nok"/>
+                    <tabBarItem key="tabBarItem" title="New Post" image="714-camera" selectedImage="714-camera" id="F47-mi-Nok"/>
                     <connections>
                         <outlet property="descriptionTextField" destination="7ud-21-P5L" id="SaX-t4-xIf"/>
                         <outlet property="imageView" destination="CtO-ka-xzH" id="x7B-bH-d0F"/>
@@ -115,7 +115,7 @@
         <!--Item List-->
         <scene sceneID="Nzs-aH-6Uo">
             <objects>
-                <collectionViewController id="Azb-AD-Bhb" sceneMemberID="viewController">
+                <collectionViewController id="Azb-AD-Bhb" customClass="ItemCollectionViewController" customModule="Neighbourly" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="E1c-hh-UfA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -127,7 +127,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="itemCell" id="1vb-AU-e4g">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="itemCell" id="1vb-AU-e4g" customClass="ItemCollectionViewCell" customModule="Neighbourly" customModuleProvider="target">
                                 <rect key="frame" x="2" y="0.0" width="372" height="400"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -159,6 +159,10 @@
                                     <constraint firstItem="Bcv-RY-m2Q" firstAttribute="trailing" secondItem="1vb-AU-e4g" secondAttribute="trailingMargin" id="Uv4-X5-aw0"/>
                                     <constraint firstItem="yjA-BU-6uS" firstAttribute="leading" secondItem="1vb-AU-e4g" secondAttribute="leading" constant="8" id="jNz-ej-VjX"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="descriptionLabel" destination="yjA-BU-6uS" id="B4w-aB-CEU"/>
+                                    <outlet property="imageView" destination="Bcv-RY-m2Q" id="zRa-y0-nt1"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>
@@ -166,7 +170,7 @@
                             <outlet property="delegate" destination="Azb-AD-Bhb" id="Dtb-d9-OIC"/>
                         </connections>
                     </collectionView>
-                    <tabBarItem key="tabBarItem" title="Item List" image="729-top-list" id="XV2-XX-aQ8"/>
+                    <tabBarItem key="tabBarItem" title="Item List" image="729-top-list" selectedImage="729-top-list" id="XV2-XX-aQ8"/>
                     <connections>
                         <segue destination="4d0-gJ-oiG" kind="show" identifier="showItemDetail" id="NuR-Wf-aj2"/>
                     </connections>

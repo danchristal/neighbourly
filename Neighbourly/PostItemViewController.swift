@@ -56,7 +56,7 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
             }
             
             //store downloadURL crashes if offline
-            self.imageURL = metaData!.downloadURL()!.absoluteString
+            self.imageURL = metaData?.downloadURL()?.absoluteString
             //self.ref.child("posts").child(key).updateChildValues(["imageURL": self.imageURL])
             
             let userID = FIRAuth.auth()?.currentUser?.uid

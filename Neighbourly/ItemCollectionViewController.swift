@@ -14,6 +14,7 @@ class ItemCollectionViewController: UICollectionViewController {
     private let reuseIdentifier = "itemCell"
     private var itemList = [Item]()
     private var ref: FIRDatabaseReference!
+    private var initialDataLoaded = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,18 +25,26 @@ class ItemCollectionViewController: UICollectionViewController {
         //listen for when posts get added
         let postRef = ref.database.reference().child("posts")
         
-        postRef.observe(.value, with: { (snapshot) in
-            var newItems = [Item]()
-            
-            for child in snapshot.children {
-                let item = Item(snapshot: child as! FIRDataSnapshot)
-                newItems.insert(item, at: 0)
-                //newItems.append(item)
+        //handle new posts since initial load
+        postRef.observe(.childAdded, with: { (snapshot) in
+            if self.initialDataLoaded{
+                let item = Item(snapshot: snapshot)
+                self.itemList.insert(item, at: 0)
+                self.collectionView?.insertItems(at:  [IndexPath(item: 0, section: 0)] )
             }
-            self.itemList = newItems
-            self.collectionView?.reloadData()
         })
         
+        //handle initial data from Firebase
+        postRef.observe(.value, with: { (snapshot) in
+            if !self.initialDataLoaded {
+                for child in snapshot.children {
+                    let item = Item(snapshot: child as! FIRDataSnapshot)
+                    self.itemList.insert(item, at: 0)
+                }
+                self.collectionView?.reloadData()
+                self.initialDataLoaded = true
+            }
+        })
     }
     
     

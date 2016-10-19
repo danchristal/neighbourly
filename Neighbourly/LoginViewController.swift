@@ -43,7 +43,12 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         
         FIRAuth.auth()?.signIn(with: credential, completion: { (user, error) in
             
-            if error == nil{
+            if let error = error{
+                print(error.localizedDescription)
+                return
+            }
+            
+            if user != nil{
                 
                 let uid = FIRAuth.auth()?.currentUser?.uid
                 print("uid: \(uid!)")

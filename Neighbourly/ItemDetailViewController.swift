@@ -7,23 +7,41 @@
 //
 
 import UIKit
+import MapKit
 
-class ItemDetailViewController: UIViewController {
+class ItemDetailViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
-    var item : Item!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        try? imageView.image = UIImage(data: Data(contentsOf: item.localURL!))
-        descriptionLabel.text = item.description
-        // Do any additional setup after loading the view.
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var mapView: MKMapView!{
+        didSet{
+            mapView.mapType = .standard
+            mapView.showsUserLocation = true
+            mapView.delegate = self
+        }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    var item : Item!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        mapView = MKMapView()
+        imageView.loadImageUsingCacheWithUrlString(urlString: item.imageURL)
+        descriptionLabel.text = item.description
+        locationLabel.text = item.locationString
+        
+    }
+    
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        
+        let annotation = MKPointAnnotation()
+        let centerCoordinate = CLLocationCoordinate2D(latitude: item.location.latitude, longitude: item.location.longitude)
+        annotation.coordinate = centerCoordinate
+        annotation.title = item.description
+        
+        mapView.showAnnotations([annotation], animated: true)
+        
     }
     
     

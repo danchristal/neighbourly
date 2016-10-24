@@ -20,6 +20,5 @@ class ItemCollectionViewCell : UICollectionViewCell{
         downloadTask?.suspend()
         imageView.image = nil
     }
-
     
 }

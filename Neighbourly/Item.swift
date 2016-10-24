@@ -8,12 +8,14 @@
 
 import UIKit
 import FirebaseDatabase
+import CoreLocation
 
 struct Item {
 
     var description: String
     var imageURL: String
-    var localURL: URL?
+    var locationString: String?
+    var location: CLLocationCoordinate2D!
     //var username: String
     //let hashtags: Set? = nil
     
@@ -23,9 +25,14 @@ struct Item {
     }
     
     init(snapshot: FIRDataSnapshot){
-        let snapshotValue = snapshot.value as! [String:String]
-        description = snapshotValue["description"]!
-        imageURL = snapshotValue["imageURL"]!
+        let snapshotValue = snapshot.value as! [String:Any]
+        description = snapshotValue["description"] as! String
+        imageURL = snapshotValue["imageURL"] as! String
+        locationString = snapshotValue["location"] as? String
+        location = CLLocationCoordinate2D(latitude: snapshotValue["latitude"] as! Double, longitude: snapshotValue["longitude"] as! Double)
+    }
+    
+    func downloadImage(){
         
     }
     

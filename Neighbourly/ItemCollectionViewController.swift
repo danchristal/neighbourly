@@ -15,6 +15,7 @@ class ItemCollectionViewController: UICollectionViewController {
     private var itemList = [Item]()
     private var ref: FIRDatabaseReference!
     private var initialDataLoaded = false
+    private var locationManager: LocationManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,10 @@ class ItemCollectionViewController: UICollectionViewController {
         
         //listen for when posts get added
         let postRef = ref.database.reference().child("posts")
+        
+        //start listening for location
+        locationManager = LocationManager.shared
+        
         
         //handle new posts since initial load
         postRef.observe(.childAdded, with: { (snapshot) in
@@ -41,10 +46,14 @@ class ItemCollectionViewController: UICollectionViewController {
                     let item = Item(snapshot: child as! FIRDataSnapshot)
                     self.itemList.insert(item, at: 0)
                 }
-                self.collectionView?.reloadData()
+                
+                DispatchQueue.main.async(execute: {
+                    self.collectionView?.reloadData()
+                })
                 self.initialDataLoaded = true
             }
         })
+        
     }
     
     
@@ -66,17 +75,8 @@ class ItemCollectionViewController: UICollectionViewController {
         
         let item = itemList[indexPath.item]
         itemCell.descriptionLabel.text = item.description
-        let url = URL(string: item.imageURL)!
-        itemCell.downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (location, response, error) in
-            
-            self.itemList[indexPath.item].localURL = location
-            guard let image = try! UIImage(data: Data(contentsOf: location!)) else {return}
-            
-            DispatchQueue.main.async {
-                itemCell.imageView.image = image
-            }
-        })
-        itemCell.downloadTask?.resume()
+        itemCell.imageView.loadImageUsingCacheWithUrlString(urlString: item.imageURL)
+
         
         return itemCell
     }
@@ -86,36 +86,6 @@ class ItemCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "showDetail", sender: self)
     }
-    
-    /*
-     // Uncomment this method to specify if the specified item should be highlighted during tracking
-     override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment this method to specify if the specified item should be selected
-     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-     override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-     
-     }
-     */
-    
     
     // MARK: - Navigation
     

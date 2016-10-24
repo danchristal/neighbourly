@@ -14,10 +14,13 @@
 		D9123DDB1DB55A360096A2AE /* ItemCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9123DDA1DB55A360096A2AE /* ItemCollectionViewController.swift */; };
 		D9123DDD1DB55A5F0096A2AE /* ItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9123DDC1DB55A5F0096A2AE /* ItemCollectionViewCell.swift */; };
 		D9123DE11DB569F80096A2AE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9123DE01DB569F80096A2AE /* Item.swift */; };
+		D97634691DB94619004BAE4D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97634681DB94619004BAE4D /* LocationManager.swift */; };
 		D97A56381DB576040090C25A /* PostItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97A56371DB576040090C25A /* PostItemViewController.swift */; };
 		D97A563A1DB57F6D0090C25A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D97A56391DB57F6D0090C25A /* GoogleService-Info.plist */; };
+		D98718BC1DBE8B0800D12ECE /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98718BB1DBE8B0800D12ECE /* TabBarViewController.swift */; };
 		D98B11771DB68CF50050FEA6 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B11761DB68CF50050FEA6 /* ItemDetailViewController.swift */; };
 		D99B88531DB69EF100CE9912 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99B88521DB69EF100CE9912 /* LoginViewController.swift */; };
+		D9CAE86F1DBEC3EF0042E005 /* Extension+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CAE86E1DBEC3EF0042E005 /* Extension+UIImageView.swift */; };
 		F6A8C55801706CCC21EA8E30 /* Pods_Neighbourly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20411CA77E3BFBB19B7A28E /* Pods_Neighbourly.framework */; };
 /* End PBXBuildFile section */
 
@@ -34,10 +37,14 @@
 		D9123DDC1DB55A5F0096A2AE /* ItemCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		D9123DE01DB569F80096A2AE /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		D94A39AB1DB6A7C200FA12C1 /* Neighbourly-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Neighbourly-Bridging-Header.h"; sourceTree = "<group>"; };
+		D97634681DB94619004BAE4D /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D97A56371DB576040090C25A /* PostItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostItemViewController.swift; sourceTree = "<group>"; };
 		D97A56391DB57F6D0090C25A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D98718BB1DBE8B0800D12ECE /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		D98B11761DB68CF50050FEA6 /* ItemDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
 		D99B88521DB69EF100CE9912 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		D9CAE86D1DBEA9E80042E005 /* Neighbourly.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Neighbourly.entitlements; sourceTree = "<group>"; };
+		D9CAE86E1DBEC3EF0042E005 /* Extension+UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImageView.swift"; sourceTree = "<group>"; };
 		FDC4158A40E04FFF7287ABFE /* Pods-Neighbourly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neighbourly.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neighbourly/Pods-Neighbourly.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,14 +101,10 @@
 			isa = PBXGroup;
 			children = (
 				D9123DD91DB54F480096A2AE /* Supporting Files */,
-				D9123DC31DB54EE00096A2AE /* AppDelegate.swift */,
 				D9123DC71DB54EE00096A2AE /* Main.storyboard */,
-				D9123DDA1DB55A360096A2AE /* ItemCollectionViewController.swift */,
-				D9123DDC1DB55A5F0096A2AE /* ItemCollectionViewCell.swift */,
-				D9123DE01DB569F80096A2AE /* Item.swift */,
-				D97A56371DB576040090C25A /* PostItemViewController.swift */,
-				D98B11761DB68CF50050FEA6 /* ItemDetailViewController.swift */,
-				D99B88521DB69EF100CE9912 /* LoginViewController.swift */,
+				D98718B81DBE8AB600D12ECE /* Controller */,
+				D98718BA1DBE8AD200D12ECE /* View */,
+				D98718B91DBE8AC500D12ECE /* Model */,
 			);
 			path = Neighbourly;
 			sourceTree = "<group>";
@@ -109,11 +112,43 @@
 		D9123DD91DB54F480096A2AE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D9CAE86D1DBEA9E80042E005 /* Neighbourly.entitlements */,
+				D9123DC31DB54EE00096A2AE /* AppDelegate.swift */,
 				D9123DCA1DB54EE00096A2AE /* Assets.xcassets */,
 				D9123DCC1DB54EE00096A2AE /* LaunchScreen.storyboard */,
 				D9123DCF1DB54EE00096A2AE /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D98718B81DBE8AB600D12ECE /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D9123DDA1DB55A360096A2AE /* ItemCollectionViewController.swift */,
+				D97A56371DB576040090C25A /* PostItemViewController.swift */,
+				D98B11761DB68CF50050FEA6 /* ItemDetailViewController.swift */,
+				D99B88521DB69EF100CE9912 /* LoginViewController.swift */,
+				D98718BB1DBE8B0800D12ECE /* TabBarViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		D98718B91DBE8AC500D12ECE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D97634681DB94619004BAE4D /* LocationManager.swift */,
+				D9123DE01DB569F80096A2AE /* Item.swift */,
+				D9CAE86E1DBEC3EF0042E005 /* Extension+UIImageView.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		D98718BA1DBE8AD200D12ECE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D9123DDC1DB55A5F0096A2AE /* ItemCollectionViewCell.swift */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,6 +189,11 @@
 						DevelopmentTeam = MV6A58NLUE;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -246,6 +286,9 @@
 				D9123DE11DB569F80096A2AE /* Item.swift in Sources */,
 				D9123DDD1DB55A5F0096A2AE /* ItemCollectionViewCell.swift in Sources */,
 				D98B11771DB68CF50050FEA6 /* ItemDetailViewController.swift in Sources */,
+				D98718BC1DBE8B0800D12ECE /* TabBarViewController.swift in Sources */,
+				D9CAE86F1DBEC3EF0042E005 /* Extension+UIImageView.swift in Sources */,
+				D97634691DB94619004BAE4D /* LocationManager.swift in Sources */,
 				D97A56381DB576040090C25A /* PostItemViewController.swift in Sources */,
 				D9123DC41DB54EE00096A2AE /* AppDelegate.swift in Sources */,
 				D9123DDB1DB55A360096A2AE /* ItemCollectionViewController.swift in Sources */,
@@ -373,6 +416,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Neighbourly/Neighbourly.entitlements;
 				DEVELOPMENT_TEAM = MV6A58NLUE;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Neighbourly/Info.plist;
@@ -391,6 +435,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Neighbourly/Neighbourly.entitlements;
 				DEVELOPMENT_TEAM = MV6A58NLUE;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Neighbourly/Info.plist;

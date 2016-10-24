@@ -58,8 +58,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
             }
 
         })
-        
-        
+ 
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {

@@ -107,7 +107,7 @@
             </objects>
             <point key="canvasLocation" x="-254" y="856"/>
         </scene>
-        <!--Item-->
+        <!--Notifications-->
         <scene sceneID="cnZ-Z2-TDq">
             <objects>
                 <tableViewController id="dKv-vI-0ie" sceneMemberID="viewController">
@@ -130,40 +130,98 @@
                             <outlet property="delegate" destination="dKv-vI-0ie" id="5Ci-Bq-Z3g"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Item" image="756-bell" selectedImage="756-bell" id="cBW-uc-cUF"/>
+                    <tabBarItem key="tabBarItem" title="Notifications" image="756-bell" selectedImage="756-bell" id="cBW-uc-cUF"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="47k-xn-Nt0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="482" y="860"/>
         </scene>
-        <!--Item-->
+        <!--User-->
         <scene sceneID="NOX-ao-PZ0">
             <objects>
-                <tableViewController id="HFQ-mY-4PX" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Krj-4h-tHH">
+                <tableViewController id="HFQ-mY-4PX" customClass="UserProfileViewController" customModule="Neighbourly" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Krj-4h-tHH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="ylm-Xd-oeI">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ylm-Xd-oeI" id="fQt-NW-He9">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
+                        <sections>
+                            <tableViewSection id="io4-w5-tRv">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="profileImage" rowHeight="175" id="ylm-Xd-oeI" customClass="ProfileImageViewCell" customModule="Neighbourly" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="175"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ylm-Xd-oeI" id="fQt-NW-He9">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="174"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pJU-2u-FXt">
+                                                    <rect key="frame" x="127" y="16" width="120" height="120"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="120" id="i4L-gA-GQ9"/>
+                                                        <constraint firstAttribute="height" constant="120" id="x2V-uy-He5"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QSN-xQ-UF0">
+                                                    <rect key="frame" x="166" y="144" width="42" height="19"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="pJU-2u-FXt" firstAttribute="top" secondItem="fQt-NW-He9" secondAttribute="topMargin" constant="8" id="F2F-Im-c3h"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="QSN-xQ-UF0" secondAttribute="bottom" constant="3" id="MPd-CT-e3T"/>
+                                                <constraint firstItem="QSN-xQ-UF0" firstAttribute="top" secondItem="pJU-2u-FXt" secondAttribute="bottom" constant="8" symbolic="YES" id="SEj-7R-vtU"/>
+                                                <constraint firstItem="pJU-2u-FXt" firstAttribute="leading" secondItem="fQt-NW-He9" secondAttribute="leadingMargin" constant="119" id="hfk-uB-v8I"/>
+                                                <constraint firstItem="QSN-xQ-UF0" firstAttribute="centerX" secondItem="pJU-2u-FXt" secondAttribute="centerX" id="mKZ-wZ-gQt"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="pJU-2u-FXt" secondAttribute="trailing" constant="120" id="zgZ-og-3qf"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="QSN-xQ-UF0" id="dHb-e7-llF"/>
+                                            <outlet property="profileImageView" destination="pJU-2u-FXt" id="Vu9-At-PVV"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="profileLogout" id="AnX-e8-k30">
+                                        <rect key="frame" x="0.0" y="175" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AnX-e8-k30" id="xHt-tR-gta">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lH4-31-TQQ">
+                                                    <rect key="frame" x="163" y="6" width="48" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <state key="normal" title="Logout"/>
+                                                    <connections>
+                                                        <action selector="didTapSignOut:" destination="HFQ-mY-4PX" eventType="touchUpInside" id="agD-wW-bZl"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyCell" id="1nd-oY-9y5">
+                                        <rect key="frame" x="0.0" y="219" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1nd-oY-9y5" id="0HR-YX-XT8">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
                         <connections>
                             <outlet property="dataSource" destination="HFQ-mY-4PX" id="hKA-Jg-9rB"/>
                             <outlet property="delegate" destination="HFQ-mY-4PX" id="aSk-d9-n0t"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Item" image="779-users" selectedImage="779-users" id="zrk-7H-0ig"/>
+                    <tabBarItem key="tabBarItem" title="User" image="779-users" selectedImage="779-users" id="zrk-7H-0ig"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="go7-yj-KyY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1266" y="854"/>
+            <point key="canvasLocation" x="1264.8" y="853.22338830584715"/>
         </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="Etc-5n-cjz">
@@ -189,7 +247,7 @@
         <!--Login View Controller-->
         <scene sceneID="ARK-fV-IeE">
             <objects>
-                <viewController id="okQ-rC-bXw" customClass="LoginViewController" customModule="Neighbourly" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginView" id="okQ-rC-bXw" customClass="LoginViewController" customModule="Neighbourly" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="CPx-Er-hNf"/>
                         <viewControllerLayoutGuide type="bottom" id="2CN-ku-2qa"/>

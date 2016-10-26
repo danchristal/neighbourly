@@ -9,9 +9,7 @@
 import Foundation
 import UIKit
 
-protocol TradeItemProtocol {
-    func tradeButtonPressed(cell: ItemCollectionViewCell, sender: UIButton)
-}
+
 
 
 

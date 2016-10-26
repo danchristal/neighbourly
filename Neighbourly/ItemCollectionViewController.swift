@@ -9,7 +9,16 @@
 import UIKit
 import FirebaseDatabase
 
-class ItemCollectionViewController: UICollectionViewController, UIPopoverPresentationControllerDelegate, TradeItemProtocol {
+protocol TradeForItemProtocol {
+    func tradeButtonPressed(cell: ItemCollectionViewCell, sender: UIButton)
+}
+
+protocol ItemToTradeProtocol {
+    func itemToTradeSelected(item: Item)
+}
+
+class ItemCollectionViewController: UICollectionViewController, UIPopoverPresentationControllerDelegate, TradeForItemProtocol, ItemToTradeProtocol {
+    
     //MARK: Properties
     private let reuseIdentifier = "itemCell"
     private var itemList = [Item]()
@@ -96,15 +105,20 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         print(desiredItem.description)
 
         let storyboard = UIStoryboard(name:"Main", bundle: nil)
-        let tradeViewController = storyboard.instantiateViewController(withIdentifier: "tradeList")
+        guard let tradeViewController = storyboard.instantiateViewController(withIdentifier: "tradeList") as? TradeListViewController else{return}
         tradeViewController.modalPresentationStyle = .popover
         tradeViewController.popoverPresentationController?.delegate = self
+        tradeViewController.delegate = self
         tradeViewController.popoverPresentationController?.sourceView = sender
         tradeViewController.preferredContentSize = CGSize(width: 300, height: 300)
 
 
         present(tradeViewController, animated: true, completion: nil)
 
+    }
+    
+    func itemToTradeSelected(item: Item){
+        print("Item from my list to trade: \(item.description)")
     }
     
     // MARK: UICollectionViewDelegate

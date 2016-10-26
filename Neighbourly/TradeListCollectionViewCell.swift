@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class TradeListCollectionViewCell: UICollectionViewCell, CellHasDownloadTask {
     
     @IBOutlet weak var imageView: UIImageView!

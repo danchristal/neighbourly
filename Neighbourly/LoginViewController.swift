@@ -14,6 +14,10 @@ import GoogleSignIn
 class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate  {
     
     var signInButton: GIDSignInButton!
+    private var ref: FIRDatabaseReference!
+    let sharedUser = User.shared
+
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +32,9 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         signInButton.center = view.center
         signInButton.style = .standard
         view.addSubview(signInButton)
+        
+        ref = FIRDatabase.database().reference()
+
 
     }
     
@@ -37,7 +44,6 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
             return
         }
         
-        let sharedUser = User.shared
         sharedUser.setup(withGoogleUser: user)
         
         
@@ -58,6 +64,27 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                 print("uid: \(uid!)")
                 //segue to post login view
                 self.performSegue(withIdentifier: "login", sender: self)
+                
+                
+                let userRef = self.ref.database.reference().child("users")
+                userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    if snapshot.hasChild(uid!) {
+                        //create user with data from firebase
+                        print("user exists")
+                    }
+                    else{
+                        //post sharedUser to Firebase
+                        
+                        var userPost = self.sharedUser.toJSON()
+                        if let url = userPost["imageUrl"] as? URL{ //Convert URL to String for JSON
+                            userPost["imageUrl"] = url.absoluteString
+                        }
+                        let childUpdates = ["/users/\(uid!)/": userPost]
+                        self.ref.updateChildValues(childUpdates)
+                        
+                    }
+                })
+
                 
             }
 

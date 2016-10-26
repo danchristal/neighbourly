@@ -9,11 +9,22 @@
 import Foundation
 import UIKit
 
+protocol TradeItemProtocol {
+    func tradeButtonPressed(cell: ItemCollectionViewCell, sender: UIButton)
+}
+
 class ItemCollectionViewCell : UICollectionViewCell{
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
     var downloadTask : URLSessionDownloadTask? = nil
+    var delegate: ItemCollectionViewController?
+    
+    
+    @IBAction func tradePressed(_ sender: UIButton){
+        delegate?.tradeButtonPressed(cell: self, sender: sender)
+        
+    }
     
     override func prepareForReuse(){
         super.prepareForReuse()

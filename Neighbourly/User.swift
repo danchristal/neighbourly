@@ -9,44 +9,44 @@
 import UIKit
 import GoogleSignIn
 
-class User: NSObject {
+class User: NSObject, JSONAble {
     
     static let shared = User()
     
-    public static var fullName: String?
-    private static var givenName: String?
-    private static var familyName: String?
-    internal static var email: String?
-    private static var hasImage: Bool = false
-    internal static var imageUrl: URL? = nil
+    internal var fullName: String?
+    internal var givenName: String?
+    internal var familyName: String?
+    internal var email: String?
+    internal var hasImage: Bool = false
+    internal var imageUrl: URL? = nil
     
     override private init() {
         super.init()
     }
     
-    
     func setup(withGoogleUser user: GIDGoogleUser){
         
-        User.fullName = user.profile.name
-        User.givenName = user.profile.givenName
-        User.familyName = user.profile.familyName
-        User.email = user.profile.email
-        User.hasImage = user.profile.hasImage
+        fullName = user.profile.name
+        givenName = user.profile.givenName
+        familyName = user.profile.familyName
+        email = user.profile.email
+        hasImage = user.profile.hasImage
         
-        if(User.hasImage){
+        if(hasImage){
             let dimension = round(120 * UIScreen.main.scale)
-            User.imageUrl = user.profile.imageURL(withDimension: UInt(dimension))
+            imageUrl = user.profile.imageURL(withDimension: UInt(dimension))
         }
     }
     
-    func getName() -> String? {
-        return User.fullName
-    }
     
+    func getName() -> String? {
+        return fullName
+    }
+
     
     func getImageUrl() -> String? {
-        if (User.hasImage){
-            return "\(User.imageUrl!)"
+        if (hasImage){
+            return "\(imageUrl!)"
         }
         return nil
     }

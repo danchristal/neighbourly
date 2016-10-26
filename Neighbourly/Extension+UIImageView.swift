@@ -1,5 +1,5 @@
 //
-//  Extensions.swift
+//  Extension+UIImageView.swift
 //  gameofchats
 //
 //  Created by Brian Voong on 7/5/16.

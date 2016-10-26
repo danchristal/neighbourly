@@ -9,13 +9,16 @@
 import UIKit
 import FirebaseDatabase
 
-class ItemCollectionViewController: UICollectionViewController {
+class ItemCollectionViewController: UICollectionViewController, UIPopoverPresentationControllerDelegate, TradeItemProtocol {
     //MARK: Properties
     private let reuseIdentifier = "itemCell"
     private var itemList = [Item]()
     private var ref: FIRDatabaseReference!
     private var initialDataLoaded = false
     private var locationManager: LocationManager!
+    
+    private var desiredItem:Item!
+    private var offeredItem:Item!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,14 +59,12 @@ class ItemCollectionViewController: UICollectionViewController {
         
     }
     
-    
     // MARK: UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
@@ -76,9 +77,30 @@ class ItemCollectionViewController: UICollectionViewController {
         let item = itemList[indexPath.item]
         itemCell.descriptionLabel.text = item.description
         itemCell.imageView.loadImageUsingCacheWithUrlString(urlString: item.imageURL)
+        itemCell.delegate = self
 
         
         return itemCell
+    }
+    
+    func tradeButtonPressed(cell: ItemCollectionViewCell, sender: UIButton) {
+
+        //present list of all users items OR present message window
+        
+        let indexPath = collectionView!.indexPath(for: cell)!
+        desiredItem = itemList[indexPath.item]
+        print(desiredItem.description)
+
+        let storyboard = UIStoryboard(name:"Main", bundle: nil)
+        let tradeViewController = storyboard.instantiateViewController(withIdentifier: "tradeList")
+        tradeViewController.modalPresentationStyle = .popover
+        tradeViewController.popoverPresentationController?.delegate = self
+        tradeViewController.popoverPresentationController?.sourceView = sender
+        tradeViewController.preferredContentSize = CGSize(width: 300, height: 300)
+
+
+        present(tradeViewController, animated: true, completion: nil)
+
     }
     
     // MARK: UICollectionViewDelegate
@@ -87,12 +109,19 @@ class ItemCollectionViewController: UICollectionViewController {
         performSegue(withIdentifier: "showDetail", sender: self)
     }
     
+    
+    // MARK: - UIPopoverPresentationControllerDelegate
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if(segue.identifier == "showDetail") {
+        if segue.identifier == "showDetail" {
             
             let paths = self.collectionView?.indexPathsForSelectedItems
             let path = paths?.first

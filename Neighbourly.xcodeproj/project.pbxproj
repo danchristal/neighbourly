@@ -24,6 +24,9 @@
 		D99D18751DBECE6400A284BC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D18741DBECE6400A284BC /* User.swift */; };
 		D99D18771DBED11400A284BC /* ProfileImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D18761DBED11400A284BC /* ProfileImageViewCell.swift */; };
 		D99D18791DBEDCA700A284BC /* LogoutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D18781DBEDCA700A284BC /* LogoutTableViewCell.swift */; };
+		D99D187B1DBFF58900A284BC /* JSONAble.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D187A1DBFF58900A284BC /* JSONAble.swift */; };
+		D99D187F1DC0275500A284BC /* TradeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D187E1DC0275500A284BC /* TradeListViewController.swift */; };
+		D99D18811DC0287200A284BC /* TradeListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D18801DC0287200A284BC /* TradeListCollectionViewCell.swift */; };
 		D9CAE86F1DBEC3EF0042E005 /* Extension+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CAE86E1DBEC3EF0042E005 /* Extension+UIImageView.swift */; };
 		F6A8C55801706CCC21EA8E30 /* Pods_Neighbourly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20411CA77E3BFBB19B7A28E /* Pods_Neighbourly.framework */; };
 /* End PBXBuildFile section */
@@ -51,6 +54,9 @@
 		D99D18741DBECE6400A284BC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D99D18761DBED11400A284BC /* ProfileImageViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageViewCell.swift; sourceTree = "<group>"; };
 		D99D18781DBEDCA700A284BC /* LogoutTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutTableViewCell.swift; sourceTree = "<group>"; };
+		D99D187A1DBFF58900A284BC /* JSONAble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONAble.swift; sourceTree = "<group>"; };
+		D99D187E1DC0275500A284BC /* TradeListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeListViewController.swift; sourceTree = "<group>"; };
+		D99D18801DC0287200A284BC /* TradeListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeListCollectionViewCell.swift; sourceTree = "<group>"; };
 		D9CAE86D1DBEA9E80042E005 /* Neighbourly.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Neighbourly.entitlements; sourceTree = "<group>"; };
 		D9CAE86E1DBEC3EF0042E005 /* Extension+UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImageView.swift"; sourceTree = "<group>"; };
 		FDC4158A40E04FFF7287ABFE /* Pods-Neighbourly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neighbourly.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neighbourly/Pods-Neighbourly.release.xcconfig"; sourceTree = "<group>"; };
@@ -138,6 +144,7 @@
 				D99B88521DB69EF100CE9912 /* LoginViewController.swift */,
 				D98718BB1DBE8B0800D12ECE /* TabBarViewController.swift */,
 				D99D18721DBECB9800A284BC /* UserProfileViewController.swift */,
+				D99D187E1DC0275500A284BC /* TradeListViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -149,6 +156,7 @@
 				D9123DE01DB569F80096A2AE /* Item.swift */,
 				D9CAE86E1DBEC3EF0042E005 /* Extension+UIImageView.swift */,
 				D99D18741DBECE6400A284BC /* User.swift */,
+				D99D187A1DBFF58900A284BC /* JSONAble.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -159,6 +167,7 @@
 				D9123DDC1DB55A5F0096A2AE /* ItemCollectionViewCell.swift */,
 				D99D18761DBED11400A284BC /* ProfileImageViewCell.swift */,
 				D99D18781DBEDCA700A284BC /* LogoutTableViewCell.swift */,
+				D99D18801DC0287200A284BC /* TradeListCollectionViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -297,13 +306,16 @@
 				D99B88531DB69EF100CE9912 /* LoginViewController.swift in Sources */,
 				D9123DE11DB569F80096A2AE /* Item.swift in Sources */,
 				D9123DDD1DB55A5F0096A2AE /* ItemCollectionViewCell.swift in Sources */,
+				D99D187F1DC0275500A284BC /* TradeListViewController.swift in Sources */,
 				D98B11771DB68CF50050FEA6 /* ItemDetailViewController.swift in Sources */,
 				D98718BC1DBE8B0800D12ECE /* TabBarViewController.swift in Sources */,
 				D9CAE86F1DBEC3EF0042E005 /* Extension+UIImageView.swift in Sources */,
 				D97634691DB94619004BAE4D /* LocationManager.swift in Sources */,
 				D99D18791DBEDCA700A284BC /* LogoutTableViewCell.swift in Sources */,
+				D99D18811DC0287200A284BC /* TradeListCollectionViewCell.swift in Sources */,
 				D97A56381DB576040090C25A /* PostItemViewController.swift in Sources */,
 				D99D18751DBECE6400A284BC /* User.swift in Sources */,
+				D99D187B1DBFF58900A284BC /* JSONAble.swift in Sources */,
 				D99D18771DBED11400A284BC /* ProfileImageViewCell.swift in Sources */,
 				D9123DC41DB54EE00096A2AE /* AppDelegate.swift in Sources */,
 				D99D18731DBECB9800A284BC /* UserProfileViewController.swift in Sources */,

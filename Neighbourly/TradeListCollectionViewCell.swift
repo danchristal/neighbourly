@@ -8,10 +8,9 @@
 
 import UIKit
 
-class TradeListCollectionViewCell: UICollectionViewCell {
+class TradeListCollectionViewCell: UICollectionViewCell, CellHasDownloadTask {
     
     @IBOutlet weak var imageView: UIImageView!
-    
     var downloadTask : URLSessionDownloadTask? = nil
     
     override func prepareForReuse(){
@@ -19,4 +18,5 @@ class TradeListCollectionViewCell: UICollectionViewCell {
         downloadTask?.suspend()
         imageView.image = nil
     }
+    
 }

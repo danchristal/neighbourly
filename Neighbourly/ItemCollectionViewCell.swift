@@ -13,9 +13,12 @@ protocol TradeItemProtocol {
     func tradeButtonPressed(cell: ItemCollectionViewCell, sender: UIButton)
 }
 
-class ItemCollectionViewCell : UICollectionViewCell{
-    
+
+
+class ItemCollectionViewCell : UICollectionViewCell, CellHasDownloadTask {
+
     @IBOutlet weak var imageView: UIImageView!
+    
     @IBOutlet weak var descriptionLabel: UILabel!
     var downloadTask : URLSessionDownloadTask? = nil
     var delegate: ItemCollectionViewController?
@@ -33,3 +36,5 @@ class ItemCollectionViewCell : UICollectionViewCell{
     }
     
 }
+
+

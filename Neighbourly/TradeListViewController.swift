@@ -69,11 +69,13 @@ class TradeListViewController: UICollectionViewController, UICollectionViewDeleg
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TradeListCollectionViewCell
+        var itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TradeListCollectionViewCell
         
         let item = itemList[indexPath.item]
         
-        itemCell.imageView.loadImageUsingCacheWithUrlString(urlString: item.imageURL)
+        itemCell.loadsImage(urlString: item.imageURL, completion: { (image) in
+            itemCell.imageView.image = image
+        })
         
         return itemCell
     }

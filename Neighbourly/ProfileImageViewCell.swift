@@ -27,7 +27,7 @@ class ProfileImageViewCell: UITableViewCell {
         
         
         if let url = sharedUser.getImageUrl() {
-            profileImageView.loadImageUsingCacheWithUrlString(urlString: url)
+            profileImageView.loadImage(urlString: url)
         }
         
         // Initialization code

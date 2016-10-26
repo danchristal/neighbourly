@@ -27,7 +27,7 @@ class ItemDetailViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView = MKMapView()
-        imageView.loadImageUsingCacheWithUrlString(urlString: item.imageURL)
+        imageView.loadImage(urlString: item.imageURL)
         descriptionLabel.text = item.description
         locationLabel.text = item.locationString
         

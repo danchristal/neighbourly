@@ -72,11 +72,15 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ItemCollectionViewCell
+        var itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ItemCollectionViewCell
         
         let item = itemList[indexPath.item]
         itemCell.descriptionLabel.text = item.description
-        itemCell.imageView.loadImageUsingCacheWithUrlString(urlString: item.imageURL)
+       // itemCell.imageView.loadImageOnCell(urlString: item.imageURL)
+        itemCell.loadsImage(urlString: item.imageURL, completion: { (image) in
+            itemCell.imageView.image = image
+        })
+
         itemCell.delegate = self
 
         

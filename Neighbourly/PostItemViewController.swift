@@ -74,7 +74,8 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
             
             let userID = FIRAuth.auth()?.currentUser?.uid
             
-            let post: Dictionary<String, Any> = ["description": self.descriptionTextField.text!,
+            let post: Dictionary<String, Any> = [
+                                                    "description": self.descriptionTextField.text!,
                                                     "imageURL" : self.imageURL,
                                                     "location": self.locationLabel.text!,
                                                     "latitude": self.postLocation.coordinate.latitude,

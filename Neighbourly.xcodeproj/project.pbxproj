@@ -45,6 +45,7 @@
 		D9123DDC1DB55A5F0096A2AE /* ItemCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		D9123DE01DB569F80096A2AE /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		D94A39AB1DB6A7C200FA12C1 /* Neighbourly-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Neighbourly-Bridging-Header.h"; sourceTree = "<group>"; };
+		D94EC5D61DC1829900ABB1A3 /* com.kidsmoke.Neighbourly.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = com.kidsmoke.Neighbourly.p12; sourceTree = "<group>"; };
 		D97634681DB94619004BAE4D /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D97A56371DB576040090C25A /* PostItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostItemViewController.swift; sourceTree = "<group>"; };
 		D97A56391DB57F6D0090C25A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -128,6 +129,7 @@
 		D9123DD91DB54F480096A2AE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D94EC5D61DC1829900ABB1A3 /* com.kidsmoke.Neighbourly.p12 */,
 				D9CAE86D1DBEA9E80042E005 /* Neighbourly.entitlements */,
 				D9123DC31DB54EE00096A2AE /* AppDelegate.swift */,
 				D9123DCA1DB54EE00096A2AE /* Assets.xcassets */,
@@ -222,7 +224,13 @@
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -457,6 +465,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Neighbourly/Neighbourly.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = MV6A58NLUE;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Neighbourly/Info.plist;
@@ -476,6 +485,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Neighbourly/Neighbourly.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = MV6A58NLUE;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Neighbourly/Info.plist;

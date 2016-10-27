@@ -16,6 +16,7 @@ struct Item {
     var imageURL: String
     var locationString: String?
     var location: CLLocationCoordinate2D!
+    var postID: String!
     //var username: String
     //let hashtags: Set? = nil
     
@@ -26,6 +27,8 @@ struct Item {
     
     init(snapshot: FIRDataSnapshot){
         let snapshotValue = snapshot.value as! [String:Any]
+        postID = snapshot.key
+        print("Item postID: \(postID!)")
         description = snapshotValue["description"] as! String
         imageURL = snapshotValue["imageURL"] as! String
         locationString = snapshotValue["location"] as? String

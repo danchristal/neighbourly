@@ -8,6 +8,9 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseMessaging
+import FirebaseAuth
+import Alamofire
 
 protocol TradeForItemProtocol {
     func tradeButtonPressed(cell: ItemCollectionViewCell, sender: UIButton)
@@ -41,6 +44,8 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         //start listening for location
         locationManager = LocationManager.shared
         
+        
+        FIRMessaging.messaging().subscribe(toTopic: "/topics/all")
         
         //handle new posts since initial load
         postRef.observe(.childAdded, with: { (snapshot) in
@@ -112,13 +117,44 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         tradeViewController.popoverPresentationController?.sourceView = sender
         tradeViewController.preferredContentSize = CGSize(width: 300, height: 300)
 
-
         present(tradeViewController, animated: true, completion: nil)
 
     }
     
     func itemToTradeSelected(item: Item){
-        print("Item from my list to trade: \(item.description)")
+        sendTradeOffer(for: desiredItem, with: item)
+    }
+    
+    func sendTradeOffer(for newItem: Item, with currentItem: Item){
+        //set both items to pending trade
+
+        let childUpdates = [
+            "/posts/\(currentItem.postID!)/tradePending": newItem.postID!,
+            "/posts/\(newItem.postID!)/tradePending":currentItem.postID!
+        ]
+        ref.updateChildValues(childUpdates)
+        
+        //send notification to newItem owner
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "key=AIzaSyBPRqwey2B-KRiDN6_jK3JZPSA43Of7f4U",
+            "Content-Type": "application/json"
+        ]
+        let notification: [String:String] = [
+                                                "title":"Trade Request",
+                                                "text":"User has requested a trade from you",
+                                                "sound":"default"
+                                                ]
+        let parameters: [String:Any] = ["notification":notification,
+                                        "project_id":"com.kidsmoke.Neighbourly",
+                                        "to":"cCydfBcMkeA:APA91bGnVqMS77vHevyWnyoDhW9kjEij653796ckxjOEGh96QUK9UeOcuwGcctuW3LtkGIVDAsG0VMQyBs8XGnpEdfIYANfyLJ3L2HHYqM0iAwSv5Rp9RbsR0MygtSVbtJz9G1G-zT4o",
+                                            "priority":"high",
+                                            
+                                        ]
+        
+        Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+        
+        
     }
     
     // MARK: UICollectionViewDelegate
@@ -140,14 +176,11 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "showDetail" {
-            
             let paths = self.collectionView?.indexPathsForSelectedItems
             let path = paths?.first
             let detailViewController = segue.destination as! ItemDetailViewController
             detailViewController.item = self.itemList[(path?.item)!]
         }
-        
-        
     }
     
     

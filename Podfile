@@ -9,5 +9,7 @@ target 'Neighbourly' do
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
+  pod 'Firebase/Messaging'
   pod 'GoogleSignIn'
+  pod 'Alamofire'
 end

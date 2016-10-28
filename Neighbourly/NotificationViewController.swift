@@ -33,46 +33,9 @@ class NotificationViewController: UITableViewController {
         
         //get reference to database
         ref = FIRDatabase.database().reference()
-        
-        
-        
-        //handle new posts since initial load
-        //        userNotificationRef.observe(.childAdded, with: { (snapshot) in
-        //
-        //            if self.initialDataLoaded{
-        //
-        //                self.newNotification = [String:Any]()
-        //
-        //                let snapshotValue = snapshot.value as! [String:Any]
-        //                self.newNotification["notificationID"] = snapshot.key
-        //
-        //                let currentItemId = snapshotValue["currentItem"] as! String
-        //                let potentialItemId = snapshotValue["potentialItem"] as! String
-        //
-        //                let currentPostRef = self.ref.database.reference().child("/posts/\(currentItemId)")
-        //                currentPostRef.observe(.value, with: { (snapshot) in
-        //                    let item = Item(snapshot: snapshot)
-        //                    self.newNotification["currentItem"] = item
-        //
-        //                    let potentialPostRef = self.ref.database.reference().child("/posts/\(potentialItemId)")
-        //                    potentialPostRef.observe(.value, with: { (snapshot) in
-        //                        let item = Item(snapshot: snapshot)
-        //                        self.newNotification["potentialItem"] = item
-        //
-        //                        self.notifications.append(self.newNotification)
-        //                    })
-        //                })
-        //
-        //            }
-        //        })
-        
-        //handle initial data from Firebase
-        
-        //listen for when posts get added
-        
-        
+    
         getNotifications { (notifications) in
-
+            
             var notificationDict = notifications
             
             while(!notificationDict.isEmpty){
@@ -96,53 +59,17 @@ class NotificationViewController: UITableViewController {
                     })
                     
                 })
-                
-                
             }
         }
-        
-        
-                    
-//                    let currentPostRef = self.ref.database.reference().child("/posts/\(currentItemId)")
-//                    
-//                    
-//                    currentPostRef.observe(.value, with: { (snapshot) in
-//                        
-//                        
-//                        let item1 = Item(snapshot: snapshot )
-//                        self.newNotification["currentItem"] = item1
-//                        
-//                        
-//                        let potentialPostRef = self.ref.database.reference().child("/posts/\(potentialItemId)")
-//                        potentialPostRef.observe(.value, with: { (snapshot) in
-//                            
-//                            let item2 = Item(snapshot: snapshot)
-//                            
-//                            self.newNotification["potentialItem"] = item2
-//                            self.notifications.append(self.newNotification)
-//                            
-//                        })
-//                        
-//                    })
     }
     
     
-    func getNotificationItem(itemId: String, completion: @escaping (Item) -> Void){
-        
-        let currentPostRef = self.ref.database.reference().child("/posts/\(itemId)")
-
-        currentPostRef.observe(.value, with: { (snapshot) in
-
-            let item = Item(snapshot: snapshot )
-            completion(item)
-//            self.newNotification["currentItem"] = item1
-        })
-    }
     
     func getNotifications(completion: @escaping ([String:Any]) -> Void){
-    
+        
         let userNotificationRef = ref.database.reference().child("/users/\(sharedUser.firebaseUID!)/notifications")
-
+        
+        //get initial notifications
         userNotificationRef.observe(.value, with: { (snapshot) in
             
             if !self.initialDataLoaded{
@@ -154,13 +81,12 @@ class NotificationViewController: UITableViewController {
                     self.newNotification = [String:Any]()
                     
                     let childValue = child as! FIRDataSnapshot
-                    //self.newNotification["notificationID"] = childValue.key
                     
                     let notificationValue = childValue.value as! [String:Any]
                     
                     let currentItemId = notificationValue["currentItem"] as! String
                     let potentialItemId = notificationValue["potentialItem"] as! String
-
+                    
                     let tradeOffer = [
                         "currentItem":currentItemId,
                         "potentialItem":potentialItemId
@@ -173,6 +99,44 @@ class NotificationViewController: UITableViewController {
             
         })
         
+        //listen for any new notifications added
+        userNotificationRef.observe(.childAdded, with: { (snapshot) in
+
+            if self.initialDataLoaded {
+                
+                var notifications = [String:Any]()
+                self.newNotification = [String:Any]()
+                
+                                //self.newNotification["notificationID"] = childValue.key
+                
+                let notificationValue = snapshot.value as! [String:Any]
+                
+                let currentItemId = notificationValue["currentItem"] as! String
+                let potentialItemId = notificationValue["potentialItem"] as! String
+                
+                let tradeOffer = [
+                    "currentItem":currentItemId,
+                    "potentialItem":potentialItemId
+                ]
+                notifications[snapshot.key] = tradeOffer
+                
+                completion(notifications)
+
+            }
+
+        })
+        
+    }
+    
+    func getNotificationItem(itemId: String, completion: @escaping (Item) -> Void){
+        
+        let currentPostRef = self.ref.database.reference().child("/posts/\(itemId)")
+        
+        currentPostRef.observe(.value, with: { (snapshot) in
+            
+            let item = Item(snapshot: snapshot )
+            completion(item)
+        })
     }
     
     override func didReceiveMemoryWarning() {
@@ -204,7 +168,7 @@ class NotificationViewController: UITableViewController {
         
         cell.textLabel?.text = currentItem.description
         cell.detailTextLabel?.text = potentialItem.description
-
+        
         return cell
     }
     

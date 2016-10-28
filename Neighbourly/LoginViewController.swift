@@ -21,10 +21,12 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
-        GIDSignIn.sharedInstance().delegate = self
-        GIDSignIn.sharedInstance().signInSilently() //sign in silently if already authenticated
+        
+       // GIDSignIn.sharedInstance().signInSilently() //sign in silently if already authenticated
 
         
         // TODO(developer) Configure the sign-in button look/feel
@@ -38,7 +40,8 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
 
     }
     
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+   // func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!){
         if let error = error {
             print(error.localizedDescription)
             return
@@ -61,7 +64,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
             if FIRUser != nil{
                 
                 let uid = FIRAuth.auth()?.currentUser?.uid
-               self.sharedUser.setup(withGoogleUser: user, firebaseUID: uid!)
+                self.sharedUser.setup(withGoogleUser: user, firebaseUID: uid!)
                 
                 
                 print("uid: \(uid!)")
@@ -87,17 +90,18 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                         
                     }
                 })
-
+                
                 
             }
-
+            
         })
- 
+        
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
         try! FIRAuth.auth()!.signOut()
     }
+
 
     
     /*

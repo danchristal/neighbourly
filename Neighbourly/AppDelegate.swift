@@ -119,6 +119,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         completionHandler([.alert, .sound, .badge])
         
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "didReceiveNotification"), object: nil, userInfo: ["notification": notification])
+        
         let userInfo = notification.request.content.userInfo
         // Print message ID.
         print("inside userNotificationCenter")

@@ -14,6 +14,8 @@
 		D9123DDB1DB55A360096A2AE /* ItemCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9123DDA1DB55A360096A2AE /* ItemCollectionViewController.swift */; };
 		D9123DDD1DB55A5F0096A2AE /* ItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9123DDC1DB55A5F0096A2AE /* ItemCollectionViewCell.swift */; };
 		D9123DE11DB569F80096A2AE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9123DE01DB569F80096A2AE /* Item.swift */; };
+		D929BF0E1DC2A19F00964AE7 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D929BF0D1DC2A19F00964AE7 /* NotificationViewController.swift */; };
+		D929BF101DC2C3C100964AE7 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D929BF0F1DC2C3C100964AE7 /* NotificationTableViewCell.swift */; };
 		D97634691DB94619004BAE4D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97634681DB94619004BAE4D /* LocationManager.swift */; };
 		D97A56381DB576040090C25A /* PostItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97A56371DB576040090C25A /* PostItemViewController.swift */; };
 		D97A563A1DB57F6D0090C25A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D97A56391DB57F6D0090C25A /* GoogleService-Info.plist */; };
@@ -44,6 +46,8 @@
 		D9123DDA1DB55A360096A2AE /* ItemCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewController.swift; sourceTree = "<group>"; };
 		D9123DDC1DB55A5F0096A2AE /* ItemCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		D9123DE01DB569F80096A2AE /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		D929BF0D1DC2A19F00964AE7 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		D929BF0F1DC2C3C100964AE7 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		D94A39AB1DB6A7C200FA12C1 /* Neighbourly-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Neighbourly-Bridging-Header.h"; sourceTree = "<group>"; };
 		D94EC5D61DC1829900ABB1A3 /* com.kidsmoke.Neighbourly.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = com.kidsmoke.Neighbourly.p12; sourceTree = "<group>"; };
 		D97634681DB94619004BAE4D /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -149,6 +153,7 @@
 				D98718BB1DBE8B0800D12ECE /* TabBarViewController.swift */,
 				D99D18721DBECB9800A284BC /* UserProfileViewController.swift */,
 				D99D187E1DC0275500A284BC /* TradeListViewController.swift */,
+				D929BF0D1DC2A19F00964AE7 /* NotificationViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -172,6 +177,7 @@
 				D99D18801DC0287200A284BC /* TradeListCollectionViewCell.swift */,
 				D99D18761DBED11400A284BC /* ProfileImageViewCell.swift */,
 				D99D18781DBEDCA700A284BC /* LogoutTableViewCell.swift */,
+				D929BF0F1DC2C3C100964AE7 /* NotificationTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -334,9 +340,11 @@
 				D99D18811DC0287200A284BC /* TradeListCollectionViewCell.swift in Sources */,
 				D97A56381DB576040090C25A /* PostItemViewController.swift in Sources */,
 				D99D18751DBECE6400A284BC /* User.swift in Sources */,
+				D929BF0E1DC2A19F00964AE7 /* NotificationViewController.swift in Sources */,
 				D99D187B1DBFF58900A284BC /* JSONAble.swift in Sources */,
 				D99D18771DBED11400A284BC /* ProfileImageViewCell.swift in Sources */,
 				D9123DC41DB54EE00096A2AE /* AppDelegate.swift in Sources */,
+				D929BF101DC2C3C100964AE7 /* NotificationTableViewCell.swift in Sources */,
 				D99D18731DBECB9800A284BC /* UserProfileViewController.swift in Sources */,
 				D9123DDB1DB55A360096A2AE /* ItemCollectionViewController.swift in Sources */,
 				D99D18851DC1363100A284BC /* CellHasDownloadTask.swift in Sources */,

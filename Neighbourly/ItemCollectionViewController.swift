@@ -128,13 +128,32 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
     func sendTradeOffer(for newItem: Item, with currentItem: Item){
         //set both items to pending trade
 
+        guard newItem.postID! != currentItem.postID! else {return}
+        
         let childUpdates = [
             "/posts/\(currentItem.postID!)/tradePending": newItem.postID!,
             "/posts/\(newItem.postID!)/tradePending":currentItem.postID!
         ]
         ref.updateChildValues(childUpdates)
         
-        //send notification to newItem owner
+        //create notification and add to list
+        
+        let tradeOffer = [
+                            "currentItem":newItem.postID,
+                            "potentialItem":currentItem.postID
+        ]
+
+        
+        let key = ref.child("posts").childByAutoId().key
+        
+        let notificationUpdates = [
+            "/users/\(newItem.userID!)/notifications/\(key)": tradeOffer
+        ]
+        
+        ref.updateChildValues(notificationUpdates)
+        
+        
+        //send push notification to newItem owner
         
         let headers: HTTPHeaders = [
             "Authorization": "key=AIzaSyBPRqwey2B-KRiDN6_jK3JZPSA43Of7f4U",
@@ -143,7 +162,8 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         let notification: [String:String] = [
                                                 "title":"Trade Request",
                                                 "text":"User has requested a trade from you",
-                                                "sound":"default"
+                                                "sound":"default",
+                                                "badge": "1"
                                                 ]
         let parameters: [String:Any] = ["notification":notification,
                                         "project_id":"com.kidsmoke.Neighbourly",
@@ -152,7 +172,7 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
                                             
                                         ]
         
-        Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+        let _ = Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
         
         
     }

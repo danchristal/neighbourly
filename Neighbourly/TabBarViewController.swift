@@ -7,14 +7,13 @@
 //
 
 import UIKit
+import UserNotifications
 
 class TabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
-        
               //Add pop-over button for center tabbar item
         
 //                DispatchQueue.main.async(execute: {
@@ -28,11 +27,22 @@ class TabBarViewController: UITabBarController {
 //                    button.setBackgroundImage(#imageLiteral(resourceName: "704-compose"), for: .highlighted)
 //                    win.addSubview(button)
 //                })
+        NotificationCenter.default.addObserver(self, selector: #selector(TabBarViewController.receivedNotification(_:)), name: NSNotification.Name(rawValue: "didReceiveNotification"), object: nil)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func receivedNotification(_ notification: Notification) {
+        let userInfo = notification.userInfo
+        guard let remoteNotification = userInfo?["notification"] as? UNNotification else { return }
+        let content = remoteNotification.request.content
+
+        let tabArray = self.tabBar.items as Array!
+        let tabItem = tabArray?[3] as UITabBarItem!
+        tabItem?.badgeValue = content.badge?.stringValue
     }
     
 

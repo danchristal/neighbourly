@@ -8,7 +8,10 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 import CoreLocation
+
+let imageCache = NSCache<NSString, UIImage>()
 
 struct Item {
 
@@ -17,6 +20,7 @@ struct Item {
     var locationString: String?
     var location: CLLocationCoordinate2D!
     var postID: String!
+    var userID: String!
     //var username: String
     //let hashtags: Set? = nil
     
@@ -27,6 +31,7 @@ struct Item {
     
     init(snapshot: FIRDataSnapshot){
         let snapshotValue = snapshot.value as! [String:Any]
+        userID = snapshotValue["author"] as! String
         postID = snapshot.key
         print("Item postID: \(postID!)")
         description = snapshotValue["description"] as! String

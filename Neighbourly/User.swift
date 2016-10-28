@@ -19,18 +19,20 @@ class User: NSObject, JSONAble {
     internal var email: String?
     internal var hasImage: Bool = false
     internal var imageUrl: URL? = nil
+    internal var firebaseUID: String?
     
     override private init() {
         super.init()
     }
     
-    func setup(withGoogleUser user: GIDGoogleUser){
+    func setup(withGoogleUser user: GIDGoogleUser, firebaseUID uid: String){
         
         fullName = user.profile.name
         givenName = user.profile.givenName
         familyName = user.profile.familyName
         email = user.profile.email
         hasImage = user.profile.hasImage
+        firebaseUID = uid
         
         if(hasImage){
             let dimension = round(120 * UIScreen.main.scale)

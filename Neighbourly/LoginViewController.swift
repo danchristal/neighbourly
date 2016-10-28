@@ -44,23 +44,26 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
             return
         }
         
-        sharedUser.setup(withGoogleUser: user)
+        
         
         
         let authentication = user.authentication
         let credential = FIRGoogleAuthProvider.credential(withIDToken: (authentication?.idToken)!,
                                                           accessToken: (authentication?.accessToken)!)
         
-        FIRAuth.auth()?.signIn(with: credential, completion: { (user, error) in
+        FIRAuth.auth()?.signIn(with: credential, completion: { (FIRUser, error) in
             
             if let error = error{
                 print(error.localizedDescription)
                 return
             }
             
-            if user != nil{
+            if FIRUser != nil{
                 
                 let uid = FIRAuth.auth()?.currentUser?.uid
+               self.sharedUser.setup(withGoogleUser: user, firebaseUID: uid!)
+                
+                
                 print("uid: \(uid!)")
                 //segue to post login view
                 self.performSegue(withIdentifier: "login", sender: self)

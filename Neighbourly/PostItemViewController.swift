@@ -72,7 +72,7 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
             
             //self.ref.child("posts").child(key).updateChildValues(["imageURL": self.imageURL])
             
-            let userID = FIRAuth.auth()?.currentUser?.uid
+            let user = User.shared
             
             let post: Dictionary<String, Any> = [
                                                     "description": self.descriptionTextField.text!,
@@ -80,7 +80,8 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
                                                     "location": self.locationLabel.text!,
                                                     "latitude": self.postLocation.coordinate.latitude,
                                                     "longitude": self.postLocation.coordinate.longitude,
-                                                    "author": userID!]
+                                                    "author": user.firebaseUID!
+                                                ]
             
             let childUpdates = ["/posts/\(key)/": post]
             self.ref.updateChildValues(childUpdates)

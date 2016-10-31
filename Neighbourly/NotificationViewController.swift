@@ -10,9 +10,9 @@ import UIKit
 import FirebaseDatabase
 
 
-class NotificationViewController: UITableViewController {
+class NotificationViewController: UITableViewController, TradeNotificationDelegate {
     
-    var notifications = [[String:Any]]() {
+    var userNotifications = [[String:Any]]() {
         didSet{
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -25,36 +25,53 @@ class NotificationViewController: UITableViewController {
     private let sharedUser = User.shared
     private var newNotification: [String:Any]!
     
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.contentInset.top = 20
+        
         //get reference to database
         ref = FIRDatabase.database().reference()
-    
+        
         getNotifications { (notifications) in
             
-            var notificationDict = notifications
+            var notificationArray = notifications.flatMap { $0.1 as? [String:Any] }
             
-            while(!notificationDict.isEmpty){
-                let notification = notificationDict.popFirst()
-                let notificationItems = notification?.value as! [String:String]
+            while(!notificationArray.isEmpty){
                 
-                let currentItemId = notificationItems["currentItem"]
-                let potentialItemId = notificationItems["potentialItem"]
-                
-                print("current Item: \(currentItemId!)")
-                print("potential Item: \(potentialItemId!)")
+                let notification = notificationArray.removeFirst() as! [String:String]
+                let currentItemId = notification["currentItem"]
+                let potentialItemId = notification["potentialItem"]
+                let postKey = notification["postKey"]
+                print("postKey: \(postKey!)")
                 
                 self.getNotificationItem(itemId: currentItemId!, completion: { (currentItem) in
                     
                     self.getNotificationItem(itemId: potentialItemId!, completion: { (potentialItem) in
                         
                         let newNotification = ["currentItem":currentItem,
-                                               "potentialItem":potentialItem]
-                        self.notifications.append(newNotification)
+                                               "potentialItem":potentialItem,
+                                               "postKey":postKey!] as [String : Any]
+                        
+                        var notificationFound = false
+                        
+                        for dict in self.userNotifications {
+                        
+                            if let somePostKey = dict["postKey"] as! String! {
+                                
+                                if somePostKey == postKey!{
+                                    notificationFound = true
+                                    break
+                                }
+                            }
+                        }
+                        
+                        if (!notificationFound){
+                            
+                            self.userNotifications.append(newNotification)
+
+                        }
+                        
                         
                     })
                     
@@ -74,7 +91,6 @@ class NotificationViewController: UITableViewController {
             
             if !self.initialDataLoaded{
                 
-                print(snapshot.children)
                 var notifications = [String:Any]()
                 
                 for child in snapshot.children{
@@ -89,25 +105,25 @@ class NotificationViewController: UITableViewController {
                     
                     let tradeOffer = [
                         "currentItem":currentItemId,
-                        "potentialItem":potentialItemId
+                        "potentialItem":potentialItemId,
+                        "postKey":childValue.key
                     ]
                     notifications[childValue.key] = tradeOffer
                 }
                 completion(notifications)
                 self.initialDataLoaded = true
             }
-            
         })
         
         //listen for any new notifications added
         userNotificationRef.observe(.childAdded, with: { (snapshot) in
-
+            
             if self.initialDataLoaded {
                 
                 var notifications = [String:Any]()
                 self.newNotification = [String:Any]()
                 
-                                //self.newNotification["notificationID"] = childValue.key
+                //self.newNotification["notificationID"] = childValue.key
                 
                 let notificationValue = snapshot.value as! [String:Any]
                 
@@ -116,14 +132,15 @@ class NotificationViewController: UITableViewController {
                 
                 let tradeOffer = [
                     "currentItem":currentItemId,
-                    "potentialItem":potentialItemId
+                    "potentialItem":potentialItemId,
+                    "postKey":snapshot.key
                 ]
                 notifications[snapshot.key] = tradeOffer
                 
                 completion(notifications)
-
+                
             }
-
+            
         })
         
     }
@@ -132,16 +149,156 @@ class NotificationViewController: UITableViewController {
         
         let currentPostRef = self.ref.database.reference().child("/posts/\(itemId)")
         
-        currentPostRef.observe(.value, with: { (snapshot) in
+        currentPostRef.observeSingleEvent(of: .value, with: { (snapshot) in
             
-            let item = Item(snapshot: snapshot )
+            let item = Item(snapshot: snapshot)
             completion(item)
         })
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func getUserTradeCount(userID: String, completion: @escaping (String?) -> Void){
+        
+        let tradeCountRef = self.ref.database.reference().child("/users/\(userID)/tradeCount")
+        
+        tradeCountRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let tradeCount = snapshot.value as? String
+            
+            completion(tradeCount)
+        })
+        
+    }
+    
+    
+    func getItemTradeCount(itemID: String, completion: @escaping (String?) -> Void) {
+        
+        let itemScoreRef = self.ref.database.reference().child("/posts/\(itemID)/tradeCount")
+        
+        itemScoreRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let tradeCount = snapshot.value as? String
+            
+            completion(tradeCount)
+        })
+    }
+    
+    func getItemTradeScore(itemID: String, completion: @escaping (String?) -> Void) {
+        
+        let itemScoreRef = self.ref.database.reference().child("/posts/\(itemID)/tradeScore")
+        
+        
+        itemScoreRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let tradeScore = snapshot.value as? String
+            
+            completion(tradeScore)
+            
+        })
+    }
+    
+    
+    func acceptTrade(cell: NotificationTableViewCell) {
+        
+        let indexPath = tableView?.indexPath(for: cell)
+        var myItemTradeCount = 0
+        var otherItemTradeCount = 0
+        var myItemScore = 1
+        var otherItemScore = 1
+        
+        
+        //swap item owners, remove notification
+        
+        let notification = userNotifications[indexPath!.row]
+        
+        let currentItem = notification["currentItem"] as! Item
+        let potentialItem = notification["potentialItem"] as! Item
+        
+        
+        
+        getItemTradeCount(itemID: currentItem.postID, completion: { (itemTradeCount) in
+            
+            if (itemTradeCount != nil) {
+                myItemTradeCount = Int(itemTradeCount!)!
+                myItemTradeCount += 1
+            }
+            
+            self.getItemTradeCount(itemID: potentialItem.postID, completion: { (itemTradeCount) in
+                
+                if(itemTradeCount != nil) {
+                    otherItemTradeCount = Int(itemTradeCount!)!
+                    otherItemTradeCount += 1
+                }
+                
+                
+                self.getItemTradeScore(itemID: currentItem.postID, completion: { (itemScore) in
+                    
+                    if(itemScore != nil){
+                        myItemScore = Int(itemScore!)!
+                        myItemScore *= 2
+                    }
+                    
+                    self.getItemTradeScore(itemID: potentialItem.postID, completion: { (itemScore) in
+                        
+                        if(itemScore != nil){
+                            otherItemScore = Int(itemScore!)!
+                            otherItemScore *= 2
+                        }
+                        
+                        let childUpdates = [
+                            
+                            "/posts/\(currentItem.postID!)/tradeCount": String(myItemTradeCount) ,
+                            "/posts/\(potentialItem.postID!)/tradeCount": String(otherItemTradeCount),
+                            
+                            
+                            "/posts/\(currentItem.postID!)/tradeScore": String(myItemScore),
+                            "/posts/\(potentialItem.postID!)/tradeScore": String(otherItemScore),
+                            
+                            
+                            "/posts/\(currentItem.postID!)/author": potentialItem.userID!,
+                            "/posts/\(potentialItem.postID!)/author":currentItem.userID!,
+                            
+                            ]
+                        
+                        
+                        self.ref.updateChildValues(childUpdates)
+                        
+                        
+                        //remove notification from user
+                        
+//                        let userNotificationRef = self.ref.database.reference().child("/users/\(self.sharedUser.firebaseUID!)/notifications/\(notification["postKey"] as! String)")
+//                        
+//                        
+//                        userNotificationRef.removeValue()
+
+                        
+                        self.declineTrade(cell: cell)
+                        
+                        
+                    })
+                    
+                    
+                })
+                
+            })
+            
+        })
+        
+    }
+    
+    func declineTrade(cell: NotificationTableViewCell) {
+        
+        let indexPath = tableView?.indexPath(for: cell)
+        
+        let notification = userNotifications[indexPath!.row]
+        
+        let userNotificationRef = ref.database.reference().child("/users/\(sharedUser.firebaseUID!)/notifications/\(notification["postKey"] as! String)")
+        
+        
+        userNotificationRef.removeValue()
+        userNotifications.remove(at: indexPath!.row)
+        tableView.reloadData()
+        
     }
     
     // MARK: - Table view data source
@@ -151,7 +308,7 @@ class NotificationViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return notifications.count
+        return userNotifications.count
     }
     
     
@@ -159,63 +316,17 @@ class NotificationViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell", for: indexPath) as! NotificationTableViewCell
         
         
-        let currentItem = notifications[indexPath.row]["currentItem"] as! Item
-        let potentialItem = notifications[indexPath.row]["potentialItem"] as! Item
+        let currentItem = userNotifications[indexPath.row]["currentItem"] as! Item
+        let potentialItem = userNotifications[indexPath.row]["potentialItem"] as! Item
+        let postKey = userNotifications[indexPath.row]["postKey"] as! String
+        
         //let notificationID = notifications[indexPath.row]["notificationID"] as! String
         
-        //print("notification ID: \(notificationID)")
         
-        
-        cell.textLabel?.text = currentItem.description
-        cell.detailTextLabel?.text = potentialItem.description
+        cell.currentItemLabel.text = currentItem.description
+        cell.newItemLabel.text = potentialItem.description
+        cell.delegate = self
         
         return cell
     }
-    
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }

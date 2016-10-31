@@ -80,7 +80,9 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
                                                     "location": self.locationLabel.text!,
                                                     "latitude": self.postLocation.coordinate.latitude,
                                                     "longitude": self.postLocation.coordinate.longitude,
-                                                    "author": user.firebaseUID!
+                                                    "author": user.firebaseUID!,
+                                                    "tradeCount": 1,
+                                                    "tradeScore": 0
                                                 ]
             
             let childUpdates = ["/posts/\(key)/": post]

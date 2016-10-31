@@ -33,7 +33,7 @@ struct Item {
         let snapshotValue = snapshot.value as! [String:Any]
         userID = snapshotValue["author"] as! String
         postID = snapshot.key
-        print("Item postID: \(postID!)")
+//        print("Item postID: \(postID!)")
         description = snapshotValue["description"] as! String
         imageURL = snapshotValue["imageURL"] as! String
         locationString = snapshotValue["location"] as? String

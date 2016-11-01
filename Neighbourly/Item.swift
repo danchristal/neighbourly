@@ -13,7 +13,7 @@ import CoreLocation
 
 let imageCache = NSCache<NSString, UIImage>()
 
-struct Item {
+struct Item : Equatable {
 
     var description: String
     var imageURL: String
@@ -38,6 +38,10 @@ struct Item {
         imageURL = snapshotValue["imageURL"] as! String
         locationString = snapshotValue["location"] as? String
         location = CLLocationCoordinate2D(latitude: snapshotValue["latitude"] as! Double, longitude: snapshotValue["longitude"] as! Double)
+    }
+    
+    static func ==(lhs: Item, rhs: Item) -> Bool {
+        return lhs.postID == rhs.postID 
     }
     
     func downloadImage(){

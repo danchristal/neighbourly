@@ -16,6 +16,8 @@
 		D9123DE11DB569F80096A2AE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9123DE01DB569F80096A2AE /* Item.swift */; };
 		D929BF0E1DC2A19F00964AE7 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D929BF0D1DC2A19F00964AE7 /* NotificationViewController.swift */; };
 		D929BF101DC2C3C100964AE7 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D929BF0F1DC2C3C100964AE7 /* NotificationTableViewCell.swift */; };
+		D95C7C0C1DC8699500830179 /* MyItemsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C7C0B1DC8699500830179 /* MyItemsTableViewController.swift */; };
+		D95C7C0E1DC86BF000830179 /* MyItemsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C7C0D1DC86BF000830179 /* MyItemsTableViewCell.swift */; };
 		D97634691DB94619004BAE4D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97634681DB94619004BAE4D /* LocationManager.swift */; };
 		D97A56381DB576040090C25A /* PostItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97A56371DB576040090C25A /* PostItemViewController.swift */; };
 		D97A563A1DB57F6D0090C25A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D97A56391DB57F6D0090C25A /* GoogleService-Info.plist */; };
@@ -52,6 +54,8 @@
 		D929BF0F1DC2C3C100964AE7 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		D94A39AB1DB6A7C200FA12C1 /* Neighbourly-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Neighbourly-Bridging-Header.h"; sourceTree = "<group>"; };
 		D94EC5D61DC1829900ABB1A3 /* com.kidsmoke.Neighbourly.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = com.kidsmoke.Neighbourly.p12; sourceTree = "<group>"; };
+		D95C7C0B1DC8699500830179 /* MyItemsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyItemsTableViewController.swift; sourceTree = "<group>"; };
+		D95C7C0D1DC86BF000830179 /* MyItemsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyItemsTableViewCell.swift; sourceTree = "<group>"; };
 		D97634681DB94619004BAE4D /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D97A56371DB576040090C25A /* PostItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostItemViewController.swift; sourceTree = "<group>"; };
 		D97A56391DB57F6D0090C25A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -159,6 +163,7 @@
 				D99D187E1DC0275500A284BC /* TradeListViewController.swift */,
 				D929BF0D1DC2A19F00964AE7 /* NotificationViewController.swift */,
 				D9CF2E561DC7DCFC00115FAC /* SearchTableViewController.swift */,
+				D95C7C0B1DC8699500830179 /* MyItemsTableViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -178,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				D99D18861DC136CC00A284BC /* Extensions+Protocols */,
+				D95C7C0D1DC86BF000830179 /* MyItemsTableViewCell.swift */,
 				D9123DDC1DB55A5F0096A2AE /* ItemCollectionViewCell.swift */,
 				D99D18801DC0287200A284BC /* TradeListCollectionViewCell.swift */,
 				D99D18761DBED11400A284BC /* ProfileImageViewCell.swift */,
@@ -350,10 +356,12 @@
 				D929BF0E1DC2A19F00964AE7 /* NotificationViewController.swift in Sources */,
 				D99D187B1DBFF58900A284BC /* JSONAble.swift in Sources */,
 				D9CF2E591DC7EC3D00115FAC /* SearchTableViewCell.swift in Sources */,
+				D95C7C0E1DC86BF000830179 /* MyItemsTableViewCell.swift in Sources */,
 				D99D18771DBED11400A284BC /* ProfileImageViewCell.swift in Sources */,
 				D9123DC41DB54EE00096A2AE /* AppDelegate.swift in Sources */,
 				D929BF101DC2C3C100964AE7 /* NotificationTableViewCell.swift in Sources */,
 				D99D18731DBECB9800A284BC /* UserProfileViewController.swift in Sources */,
+				D95C7C0C1DC8699500830179 /* MyItemsTableViewController.swift in Sources */,
 				D9123DDB1DB55A360096A2AE /* ItemCollectionViewController.swift in Sources */,
 				D99D18851DC1363100A284BC /* CellHasDownloadTask.swift in Sources */,
 			);

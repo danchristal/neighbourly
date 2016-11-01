@@ -11,6 +11,7 @@ import FirebaseDatabase
 import FirebaseMessaging
 import FirebaseAuth
 import Alamofire
+import FirebaseStorage
 
 protocol TradeForItemProtocol {
     func tradeButtonPressed(cell: ItemCollectionViewCell, sender: UIButton)
@@ -25,39 +26,48 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
     //MARK: Properties
     private let reuseIdentifier = "itemCell"
     private var itemList = [Item]()
-    private var ref: FIRDatabaseReference!
+    private var ref: FIRDatabaseReference = FIRDatabase.database().reference()
+    private var postRef: FIRDatabaseReference!
     private var initialDataLoaded = false
     private var locationManager: LocationManager!
     
     private var desiredItem:Item!
     private var offeredItem:Item!
     
+    private var childAddedHandle: UInt!
+    private var valueHandle: UInt!
+    private var childChangedHandle: UInt!
+    private var childRemovedHandle: UInt!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //get reference to database
-        ref = FIRDatabase.database().reference()
-        
         //listen for when posts get added
-        let postRef = ref.database.reference().child("posts")
+        postRef = ref.database.reference().child("posts")
+        
         
         //start listening for location
         locationManager = LocationManager.shared
         
         
-        FIRMessaging.messaging().subscribe(toTopic: "/topics/all")
+        //FIRMessaging.messaging().subscribe(toTopic: "/topics/all")
+        
         
         //handle new posts since initial load
-        postRef.observe(.childAdded, with: { (snapshot) in
+        childAddedHandle = postRef.observe(.childAdded, with: { (snapshot) in
             if self.initialDataLoaded{
                 let item = Item(snapshot: snapshot)
-                self.itemList.insert(item, at: 0)
-                self.collectionView?.insertItems(at:  [IndexPath(item: 0, section: 0)] )
+                if !self.itemList.contains(item){
+                    self.itemList.insert(item, at: 0)
+                    DispatchQueue.main.async {
+                        self.collectionView?.insertItems(at:  [IndexPath(item: 0, section: 0)] )
+                    }
+                }
             }
         })
         
         //handle initial data from Firebase
-        postRef.observe(.value, with: { (snapshot) in
+        valueHandle = postRef.observe(.value, with: { (snapshot) in
             if !self.initialDataLoaded {
                 for child in snapshot.children {
                     let item = Item(snapshot: child as! FIRDataSnapshot)
@@ -71,7 +81,45 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
             }
         })
         
+        childChangedHandle = postRef.observe(.childChanged, with: {(snapshot) in
+            
+            let item = Item(snapshot: snapshot)
+            let index = self.itemList.index { $0.postID == item.postID }
+            self.itemList.remove(at: index!)
+            self.itemList.insert(item, at: index!)
+            
+            DispatchQueue.main.async {
+                
+                self.collectionView?.reloadItems(at: [IndexPath(item: index!, section: 0)])
+                
+            }
+            
+        })
+        
+        childRemovedHandle = postRef.observe(.childRemoved, with: {(snapshot) in
+            
+            let item = Item(snapshot: snapshot)
+            let index = self.itemList.index{ $0.postID == item.postID }
+            self.itemList.remove(at: index!)
+            
+            print("snapshot has \(snapshot.childrenCount) children")
+            
+            let storageRef = FIRStorage.storage().reference().child("/\(item.postID!).jpg")
+            storageRef.delete(completion: { (error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            })
+            
+            DispatchQueue.main.async {
+                self.collectionView?.deleteItems(at:  [IndexPath(item: index!, section: 0)] )
+                
+            }
+        })
+
+        
     }
+
     
     // MARK: UICollectionViewDataSource
     
@@ -90,25 +138,25 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         
         let item = itemList[indexPath.item]
         itemCell.descriptionLabel.text = item.description
-       // itemCell.imageView.loadImageOnCell(urlString: item.imageURL)
+        // itemCell.imageView.loadImageOnCell(urlString: item.imageURL)
         itemCell.loadsImage(urlString: item.imageURL, completion: { (image) in
-            itemCell.imageView.image = image
+            itemCell.cellImageView.image = image
         })
-
+        
         itemCell.delegate = self
-
+        
         
         return itemCell
     }
     
     func tradeButtonPressed(cell: ItemCollectionViewCell, sender: UIButton) {
-
+        
         //present list of all users items OR present message window
         
         let indexPath = collectionView!.indexPath(for: cell)!
         desiredItem = itemList[indexPath.item]
         print(desiredItem.description)
-
+        
         let storyboard = UIStoryboard(name:"Main", bundle: nil)
         guard let tradeViewController = storyboard.instantiateViewController(withIdentifier: "tradeList") as? TradeListViewController else{return}
         tradeViewController.modalPresentationStyle = .popover
@@ -116,9 +164,9 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         tradeViewController.delegate = self
         tradeViewController.popoverPresentationController?.sourceView = sender
         tradeViewController.preferredContentSize = CGSize(width: 300, height: 300)
-
+        
         present(tradeViewController, animated: true, completion: nil)
-
+        
     }
     
     func itemToTradeSelected(item: Item){
@@ -127,7 +175,7 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
     
     func sendTradeOffer(for newItem: Item, with currentItem: Item){
         //set both items to pending trade
-
+        
         guard newItem.postID! != currentItem.postID! else {return}
         
         let childUpdates = [
@@ -139,10 +187,10 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         //create notification and add to list
         
         let tradeOffer = [
-                            "currentItem":newItem.postID,
-                            "potentialItem":currentItem.postID
+            "currentItem":newItem.postID,
+            "potentialItem":currentItem.postID
         ]
-
+        
         
         let key = ref.child("posts").childByAutoId().key
         
@@ -150,30 +198,58 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
             "/users/\(newItem.userID!)/notifications/\(key)": tradeOffer
         ]
         
-        ref.updateChildValues(notificationUpdates)
-        
-        
-        //send push notification to newItem owner
-        
-        let headers: HTTPHeaders = [
-            "Authorization": "key=AIzaSyBPRqwey2B-KRiDN6_jK3JZPSA43Of7f4U",
-            "Content-Type": "application/json"
-        ]
-        let notification: [String:String] = [
-                                                "title":"Trade Request",
-                                                "text":"User has requested a trade from you",
-                                                "sound":"default",
-                                                "badge": "1"
-                                                ]
-        let parameters: [String:Any] = ["notification":notification,
-                                        "project_id":"com.kidsmoke.Neighbourly",
-                                        "to":"cCydfBcMkeA:APA91bGnVqMS77vHevyWnyoDhW9kjEij653796ckxjOEGh96QUK9UeOcuwGcctuW3LtkGIVDAsG0VMQyBs8XGnpEdfIYANfyLJ3L2HHYqM0iAwSv5Rp9RbsR0MygtSVbtJz9G1G-zT4o",
+        getUserTokenAndName(uid: newItem.userID, completion: { (token, name) in
+            
+            print("token from firebase: \(token)")
+            
+            
+            self.ref.updateChildValues(notificationUpdates)
+            
+            
+            //send push notification to newItem owner
+            
+            let headers: HTTPHeaders = [
+                "Authorization": "key=AIzaSyBPRqwey2B-KRiDN6_jK3JZPSA43Of7f4U",
+                "Content-Type": "application/json"
+            ]
+            let notification: [String:String] = [
+                "title":"Trade Request",
+                "text":"\(name) has requested a trade from you",
+                "sound":"default",
+                "badge": "1"
+            ]
+            let parameters: [String:Any] = ["notification":notification,
+                                            "project_id":"com.kidsmoke.Neighbourly",
+                                            "to":token,
                                             "priority":"high",
-                                            
-                                        ]
+                                            ]
+            
+            let _ = Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            
+        })
+    }
+    
+    
+    func getUserTokenAndName(uid: String, completion: @escaping (String, String) -> Void){
         
-        let _ = Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+        let userRef = self.ref.database.reference().child("users")
         
+        userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if snapshot.hasChild(uid){
+                
+                let user = snapshot.childSnapshot(forPath: uid).value as! [String:Any]
+                
+                let userToken = user["token"] as! String
+                let userName = user["givenName"] as! String
+                
+                DispatchQueue.main.async {
+                    completion(userToken, userName)
+                }
+                
+            }
+            
+        })
         
     }
     

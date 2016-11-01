@@ -11,13 +11,13 @@ import UIKit
 
 class TradeListCollectionViewCell: UICollectionViewCell, CellHasDownloadTask {
     
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var cellImageView: UIImageView!
     var downloadTask : URLSessionDownloadTask? = nil
     
     override func prepareForReuse(){
         super.prepareForReuse()
         downloadTask?.suspend()
-        imageView.image = nil
+        cellImageView.image = nil
     }
     
 }

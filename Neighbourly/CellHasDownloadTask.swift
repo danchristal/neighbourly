@@ -10,7 +10,7 @@ import UIKit
 
 protocol CellHasDownloadTask {
     var downloadTask : URLSessionDownloadTask? {get set}
-    var imageView: UIImageView! {get set}
+    var cellImageView: UIImageView! {get set}
     
     mutating func loadsImage(urlString: String, completion:@escaping (UIImage) -> Void )
 }
@@ -18,7 +18,7 @@ protocol CellHasDownloadTask {
 extension CellHasDownloadTask {
     
     mutating func loadsImage(urlString: String, completion:@escaping (UIImage) -> Void ){
-        self.imageView.image = nil
+        self.cellImageView.image = nil
         
         //check cache for image first
         if let cachedImage = imageCache.object(forKey: urlString as NSString) as UIImage! {

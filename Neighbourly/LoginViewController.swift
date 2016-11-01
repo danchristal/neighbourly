@@ -26,10 +26,10 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
         
-       // GIDSignIn.sharedInstance().signInSilently() //sign in silently if already authenticated
+        GIDSignIn.sharedInstance().signInSilently() //sign in silently if already authenticated
 
         
-        // TODO(developer) Configure the sign-in button look/feel
+        // Configure the sign-in button look/feel
         signInButton = GIDSignInButton(frame: CGRect(x: 0, y: 0, width: 230, height: 48))
         signInButton.center = view.center
         signInButton.style = .standard
@@ -64,7 +64,8 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
             if FIRUser != nil{
                 
                 let uid = FIRAuth.auth()?.currentUser?.uid
-                self.sharedUser.setup(withGoogleUser: user, firebaseUID: uid!)
+                let token = FIRInstanceID.instanceID().token()
+                self.sharedUser.setup(withGoogleUser: user, firebaseUID: uid!, token: token!)
                 
                 
                 print("uid: \(uid!)")
@@ -77,6 +78,8 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                     if snapshot.hasChild(uid!) {
                         //create user with data from firebase
                         print("user exists")
+                        
+                    
                     }
                     else{
                         //post sharedUser to Firebase
@@ -85,6 +88,10 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                         if let url = userPost["imageUrl"] as? URL{ //Convert URL to String for JSON
                             userPost["imageUrl"] = url.absoluteString
                         }
+                        
+                        userPost["token"] = token
+                    
+                        
                         let childUpdates = ["/users/\(uid!)/": userPost]
                         self.ref.updateChildValues(childUpdates)
                         

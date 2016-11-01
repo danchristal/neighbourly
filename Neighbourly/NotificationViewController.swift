@@ -15,6 +15,16 @@ class NotificationViewController: UITableViewController, TradeNotificationDelega
     var userNotifications = [[String:Any]]() {
         didSet{
             DispatchQueue.main.async {
+                if(self.userNotifications.count != 0){
+                    self.tabBarItem.badgeValue = "\(self.userNotifications.count)"
+                    UIApplication.shared.applicationIconBadgeNumber = self.userNotifications.count
+                }
+                else{
+                    self.tabBarItem.badgeValue = nil
+                    UIApplication.shared.applicationIconBadgeNumber = 0
+                    
+                }
+
                 self.tableView.reloadData()
             }
         }
@@ -79,7 +89,6 @@ class NotificationViewController: UITableViewController, TradeNotificationDelega
             }
         }
     }
-    
     
     
     func getNotifications(completion: @escaping ([String:Any]) -> Void){
@@ -318,7 +327,7 @@ class NotificationViewController: UITableViewController, TradeNotificationDelega
         
         let currentItem = userNotifications[indexPath.row]["currentItem"] as! Item
         let potentialItem = userNotifications[indexPath.row]["potentialItem"] as! Item
-        let postKey = userNotifications[indexPath.row]["postKey"] as! String
+        //let postKey = userNotifications[indexPath.row]["postKey"] as! String
         
         //let notificationID = notifications[indexPath.row]["notificationID"] as! String
         

@@ -78,7 +78,7 @@ class TradeListViewController: UICollectionViewController, UICollectionViewDeleg
         let item = itemList[indexPath.item]
         
         itemCell.loadsImage(urlString: item.imageURL, completion: { (image) in
-            itemCell.imageView.image = image
+            itemCell.cellImageView.image = image
         })
         
         return itemCell

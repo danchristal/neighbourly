@@ -21,7 +21,7 @@ class UserProfileViewController: UITableViewController {
     }
     
     
-    @IBAction func didTapSignOut(_ sender:UIButton) {
+    @IBAction func didTapSignOut(_ sender: UIButton) {
         
         
         try! FIRAuth.auth()!.signOut()
@@ -31,10 +31,21 @@ class UserProfileViewController: UITableViewController {
         let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginView") as! LoginViewController
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window?.rootViewController = loginVC
-        
-        
-        
-        
+
     }
+    
+    
+    @IBAction func didTapMyItems(_ sender: UIButton) {
+        performSegue(withIdentifier: "showMyItems", sender: self)
+    }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        
+//        if(segue.identifier == "showMyItems"){
+//            
+//            
+//            
+//        }
+//    }
     
 }

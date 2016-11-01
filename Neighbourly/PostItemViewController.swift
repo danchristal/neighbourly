@@ -55,12 +55,13 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
     
     @IBAction func postItemButton(_ sender: UIButton) {
         
-        let data = UIImageJPEGRepresentation(imageView.image!, 0.8)!
+        let data = UIImageJPEGRepresentation(imageView.image!, 0.7)!
         let key = ref.child("posts").childByAutoId().key
         
-        let filePath = "\(key)/\("image.png")"
+        //let filePath = "\(key)/\("image.png")"
+        let filePath = "/\(key).jpg"
         let metaData = FIRStorageMetadata()
-        metaData.contentType = "image/png"
+        metaData.contentType = "image/jpg"
         
         storageRef.child(filePath).put(data, metadata: metaData) { (metadata, error) in
             if let error = error{

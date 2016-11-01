@@ -15,7 +15,7 @@ import UIKit
 
 class ItemCollectionViewCell : UICollectionViewCell, CellHasDownloadTask {
 
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var cellImageView: UIImageView!
     
     @IBOutlet weak var descriptionLabel: UILabel!
     var downloadTask : URLSessionDownloadTask? = nil
@@ -30,7 +30,7 @@ class ItemCollectionViewCell : UICollectionViewCell, CellHasDownloadTask {
     override func prepareForReuse(){
         super.prepareForReuse()
         downloadTask?.suspend()
-        imageView.image = nil
+        cellImageView.image = nil
     }
     
 }

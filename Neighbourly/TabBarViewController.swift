@@ -11,6 +11,7 @@ import UserNotifications
 
 class TabBarViewController: UITabBarController {
     
+    @IBOutlet weak var myTabBar: UITabBar!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,6 +34,17 @@ class TabBarViewController: UITabBarController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        var tabFrame = myTabBar.frame
+        tabFrame.size.height = 35
+        tabFrame.origin.y = view.frame.size.height - 35
+        tabBar.frame = tabFrame
     }
     
     func receivedNotification(_ notification: Notification) {

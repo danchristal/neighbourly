@@ -18,6 +18,8 @@ class MyItemsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.title = "My Items"
 
         let uid = FIRAuth.auth()?.currentUser?.uid
         

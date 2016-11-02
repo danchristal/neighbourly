@@ -7,11 +7,18 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
 class ProfileImageViewCell: UITableViewCell {
 
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var scoreLabel: UILabel!
+    
+    private var ref: FIRDatabaseReference!
+    private var myScore: Int = 0
+    
     
     let sharedUser = User.shared
     
@@ -30,7 +37,30 @@ class ProfileImageViewCell: UITableViewCell {
             profileImageView.loadImage(urlString: url)
         }
         
-        // Initialization code
+        let uid = FIRAuth.auth()?.currentUser?.uid
+        
+        ref = FIRDatabase.database().reference()
+        let postRef = ref.database.reference().child("posts")
+        
+        postRef.queryOrdered(byChild: "author").queryEqual(toValue: uid!).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            for child in snapshot.children{
+                let item = Item(snapshot: child as! FIRDataSnapshot)
+                
+                let itemScore = Int(item.tradeScore)!
+                
+                self.myScore += itemScore
+                
+            }
+            DispatchQueue.main.async(execute: {
+                self.scoreLabel.text = "Score: \(self.myScore)"
+            })
+            
+        })
+        
+        
+        
+        
     }
 
     

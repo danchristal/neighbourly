@@ -97,8 +97,11 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath) as! SearchTableViewCell
         
-        cell.descriptionLabel.text = searchResults[indexPath.row].description
+        let item = searchResults[indexPath.row]
         
+        cell.descriptionLabel.text = item.description
+        cell.titleLabel.text = item.title
+        cell.itemImageView.loadImage(urlString: item.imageURL)
         return cell
     }
     

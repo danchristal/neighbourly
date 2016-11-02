@@ -18,6 +18,8 @@ class MyItemsTableViewCell: UITableViewCell, CellHasDownloadTask {
     
     var downloadTask : URLSessionDownloadTask? = nil
     
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

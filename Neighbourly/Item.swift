@@ -21,7 +21,10 @@ struct Item : Equatable {
     var location: CLLocationCoordinate2D!
     var postID: String!
     var userID: String!
-    //var username: String
+    var username: String!
+    var userImageUrl: String!
+    var tradeScore: String!
+    var title: String!
     //let hashtags: Set? = nil
     
     init(imageURL: String, description: String) {
@@ -33,10 +36,13 @@ struct Item : Equatable {
         let snapshotValue = snapshot.value as! [String:Any]
         userID = snapshotValue["author"] as! String
         postID = snapshot.key
-//        print("Item postID: \(postID!)")
+        username = snapshotValue["authorName"] as! String
+        userImageUrl = snapshotValue["authorImageUrl"] as! String
         description = snapshotValue["description"] as! String
         imageURL = snapshotValue["imageURL"] as! String
         locationString = snapshotValue["location"] as? String
+        tradeScore = snapshotValue["tradeScore"] as! String
+        title = snapshotValue["title"] as! String
         location = CLLocationCoordinate2D(latitude: snapshotValue["latitude"] as! Double, longitude: snapshotValue["longitude"] as! Double)
     }
     

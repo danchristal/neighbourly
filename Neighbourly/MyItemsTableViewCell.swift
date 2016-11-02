@@ -9,8 +9,11 @@
 import UIKit
 
 class MyItemsTableViewCell: UITableViewCell, CellHasDownloadTask {
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+
 
     @IBOutlet weak var cellImageView: UIImageView!
+    @IBOutlet weak var cellTitleLabel: UILabel!
    
     
     var downloadTask : URLSessionDownloadTask? = nil

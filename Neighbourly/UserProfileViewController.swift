@@ -14,16 +14,13 @@ class UserProfileViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.separatorStyle = .none
         tableView.contentInset.top = 20
         tableView.allowsSelection = false
-        
     }
-    
-    
+
     @IBAction func didTapSignOut(_ sender: UIButton) {
-        
-        
+
         try! FIRAuth.auth()!.signOut()
         GIDSignIn.sharedInstance().signOut()
         let storyboard = UIStoryboard(name:"Main", bundle: nil)
@@ -38,14 +35,4 @@ class UserProfileViewController: UITableViewController {
     @IBAction func didTapMyItems(_ sender: UIButton) {
         performSegue(withIdentifier: "showMyItems", sender: self)
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        
-//        if(segue.identifier == "showMyItems"){
-//            
-//            
-//            
-//        }
-//    }
-    
 }

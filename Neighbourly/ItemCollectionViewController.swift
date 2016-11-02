@@ -39,6 +39,8 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
     private var childChangedHandle: UInt!
     private var childRemovedHandle: UInt!
     
+    private var sharedUser = User.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -117,19 +119,16 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
             }
         })
 
-        
     }
 
     
     // MARK: UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
         return itemList.count
     }
     
@@ -141,8 +140,13 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         // itemCell.imageView.loadImageOnCell(urlString: item.imageURL)
         itemCell.loadsImage(urlString: item.imageURL, completion: { (image) in
             itemCell.cellImageView.image = image
+            itemCell.spinner?.stopAnimating()
         })
         
+        itemCell.posterImage.loadImage(urlString: item.userImageUrl)
+        itemCell.posterName.text = item.username
+        itemCell.pointsLabel.text = "Score: \(item.tradeScore!)"
+        itemCell.titleLabel.text = item.title
         itemCell.delegate = self
         
         
@@ -151,7 +155,7 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
     
     func tradeButtonPressed(cell: ItemCollectionViewCell, sender: UIButton) {
         
-        //present list of all users items OR present message window
+        //present list of all users items
         
         let indexPath = collectionView!.indexPath(for: cell)!
         desiredItem = itemList[indexPath.item]
@@ -198,7 +202,7 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
             "/users/\(newItem.userID!)/notifications/\(key)": tradeOffer
         ]
         
-        getUserTokenAndName(uid: newItem.userID, completion: { (token, name) in
+        getUserToken(uid: newItem.userID, completion: { (token) in
             
             print("token from firebase: \(token)")
             
@@ -214,7 +218,7 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
             ]
             let notification: [String:String] = [
                 "title":"Trade Request",
-                "text":"\(name) has requested a trade from you",
+                "text":"\(self.sharedUser.givenName!) has requested a trade from you",
                 "sound":"default",
                 "badge": "1"
             ]
@@ -230,9 +234,10 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
     }
     
     
-    func getUserTokenAndName(uid: String, completion: @escaping (String, String) -> Void){
+    func getUserToken(uid: String, completion: @escaping (String) -> Void){
         
         let userRef = self.ref.database.reference().child("users")
+        print("getting userToken and name", uid)
         
         userRef.observeSingleEvent(of: .value, with: { (snapshot) in
             
@@ -241,14 +246,12 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
                 let user = snapshot.childSnapshot(forPath: uid).value as! [String:Any]
                 
                 let userToken = user["token"] as! String
-                let userName = user["givenName"] as! String
+//                let userName = user["givenName"] as! String
                 
                 DispatchQueue.main.async {
-                    completion(userToken, userName)
+                    completion(userToken)
                 }
-                
             }
-            
         })
         
     }
@@ -278,6 +281,4 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
             detailViewController.item = self.itemList[(path?.item)!]
         }
     }
-    
-    
 }

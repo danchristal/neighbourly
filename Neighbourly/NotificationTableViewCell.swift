@@ -9,17 +9,22 @@
 import UIKit
 
 
-protocol TradeNotificationDelegate {
-    func acceptTrade(cell: NotificationTableViewCell)
-    func declineTrade(cell: NotificationTableViewCell)
-}
-
 class NotificationTableViewCell: UITableViewCell {
 
     @IBOutlet weak var currentItemLabel: UILabel!
     @IBOutlet weak var newItemLabel: UILabel!
     
-    var delegate: TradeNotificationDelegate?
+    @IBOutlet weak var newItemImageView: UIImageView! {
+        didSet{
+            newItemImageView.layer.cornerRadius = 40
+        }
+    }
+
+    @IBOutlet weak var currentItemImageView: UIImageView!{
+        didSet{
+            currentItemImageView.layer.cornerRadius = 40
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,20 +36,6 @@ class NotificationTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    @IBAction func didPressAcceptTrade(sender: UIButton) {
-        
-        //swap items & remove all related trades
-        delegate?.acceptTrade(cell: self)
-        
-    }
-    
-    @IBAction func didPressDeclineTrade(sender: UIButton) {
-        
-        //remove notification from user list
-        
-        delegate?.declineTrade(cell: self)
-        
-    }
+
 
 }

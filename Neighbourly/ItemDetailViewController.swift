@@ -12,6 +12,7 @@ import MapKit
 class ItemDetailViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var imageView: UIImageView!
+    
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!{
@@ -21,7 +22,7 @@ class ItemDetailViewController: UIViewController, MKMapViewDelegate {
             mapView.delegate = self
         }
     }
-    
+
     var item : Item!
 
     override func viewDidLoad() {
@@ -31,7 +32,7 @@ class ItemDetailViewController: UIViewController, MKMapViewDelegate {
         imageView.loadImage(urlString: item.imageURL)
         descriptionLabel.text = item.description
         locationLabel.text = item.locationString
-        
+
     }
     
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
@@ -44,16 +45,4 @@ class ItemDetailViewController: UIViewController, MKMapViewDelegate {
         mapView.showAnnotations([annotation], animated: true)
         
     }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }

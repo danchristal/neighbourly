@@ -11,6 +11,7 @@ import UIKit
 
 
 extension UIImageView {
+    
     func loadImage(urlString: String) {
         
         self.image = nil

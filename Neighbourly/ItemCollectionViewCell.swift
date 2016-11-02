@@ -16,6 +16,15 @@ import UIKit
 class ItemCollectionViewCell : UICollectionViewCell, CellHasDownloadTask {
 
     @IBOutlet weak var cellImageView: UIImageView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var pointsLabel: UILabel!
+    @IBOutlet weak var posterName: UILabel!
+    @IBOutlet weak var posterImage: UIImageView!{
+        didSet{
+            posterImage.layer.cornerRadius = 15
+        }
+    }
     
     @IBOutlet weak var descriptionLabel: UILabel!
     var downloadTask : URLSessionDownloadTask? = nil

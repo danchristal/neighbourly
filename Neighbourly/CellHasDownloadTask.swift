@@ -11,6 +11,8 @@ import UIKit
 protocol CellHasDownloadTask {
     var downloadTask : URLSessionDownloadTask? {get set}
     var cellImageView: UIImageView! {get set}
+    var spinner: UIActivityIndicatorView! {get set}
+
     
     mutating func loadsImage(urlString: String, completion:@escaping (UIImage) -> Void )
 }
@@ -28,6 +30,7 @@ extension CellHasDownloadTask {
         
         //otherwise fire off a new download
         let url = URL(string: urlString)
+        spinner?.startAnimating()
         downloadTask = URLSession.shared.downloadTask(with: url!, completionHandler: { (url, response, error) in
             //download hit an error so lets return out
             if let error = error {
@@ -40,7 +43,7 @@ extension CellHasDownloadTask {
                 if let downloadedImage = UIImage(data: data) {
                     imageCache.setObject(downloadedImage, forKey: urlString as NSString)
                     completion(downloadedImage)
-                }
+                } 
             }
         })
         downloadTask?.resume()

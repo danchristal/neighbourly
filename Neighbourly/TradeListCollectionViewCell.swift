@@ -11,6 +11,8 @@ import UIKit
 
 class TradeListCollectionViewCell: UICollectionViewCell, CellHasDownloadTask {
     
+    
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var cellImageView: UIImageView!
     var downloadTask : URLSessionDownloadTask? = nil
     

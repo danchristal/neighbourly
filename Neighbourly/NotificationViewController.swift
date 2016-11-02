@@ -10,7 +10,7 @@ import UIKit
 import FirebaseDatabase
 
 
-class NotificationViewController: UITableViewController, TradeNotificationDelegate {
+class NotificationViewController: UITableViewController {
     
     var userNotifications = [[String:Any]]() {
         didSet{
@@ -24,7 +24,7 @@ class NotificationViewController: UITableViewController, TradeNotificationDelega
                     UIApplication.shared.applicationIconBadgeNumber = 0
                     
                 }
-
+                
                 self.tableView.reloadData()
             }
         }
@@ -39,6 +39,7 @@ class NotificationViewController: UITableViewController, TradeNotificationDelega
         super.viewDidLoad()
         
         tableView.contentInset.top = 20
+        tableView.separatorStyle = .none
         
         //get reference to database
         ref = FIRDatabase.database().reference()
@@ -59,14 +60,15 @@ class NotificationViewController: UITableViewController, TradeNotificationDelega
                     
                     self.getNotificationItem(itemId: potentialItemId!, completion: { (potentialItem) in
                         
-                        let newNotification = ["currentItem":currentItem,
-                                               "potentialItem":potentialItem,
-                                               "postKey":postKey!] as [String : Any]
+                        var newNotification = [String:Any]()
+                        newNotification = ["currentItem":currentItem,
+                                           "potentialItem":potentialItem,
+                                           "postKey":postKey!] as [String : Any]
                         
                         var notificationFound = false
                         
                         for dict in self.userNotifications {
-                        
+                            
                             if let somePostKey = dict["postKey"] as! String! {
                                 
                                 if somePostKey == postKey!{
@@ -79,12 +81,9 @@ class NotificationViewController: UITableViewController, TradeNotificationDelega
                         if (!notificationFound){
                             
                             self.userNotifications.append(newNotification)
-
+                            
                         }
-                        
-                        
                     })
-                    
                 })
             }
         }
@@ -207,9 +206,25 @@ class NotificationViewController: UITableViewController, TradeNotificationDelega
     }
     
     
-    func acceptTrade(cell: NotificationTableViewCell) {
+    func getUserNameAndImageUrl(uid: String, completion: @escaping (String?, String?) -> Void) {
+
+        let userInfoRef = self.ref.database.reference().child("/users/\(uid)")
         
-        let indexPath = tableView?.indexPath(for: cell)
+        userInfoRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let snapshotValue = snapshot.value as! [String:Any]
+            
+            let userName = snapshotValue["givenName"] as! String
+            let userImageUrl = snapshotValue["imageUrl"] as! String
+            
+            completion(userName, userImageUrl)
+            
+        })
+    }
+    
+    func acceptTrade(indexPath: IndexPath) {
+        
+        //let indexPath = tableView?.indexPath(for: cell)
         var myItemTradeCount = 0
         var otherItemTradeCount = 0
         var myItemScore = 1
@@ -218,7 +233,7 @@ class NotificationViewController: UITableViewController, TradeNotificationDelega
         
         //swap item owners, remove notification
         
-        let notification = userNotifications[indexPath!.row]
+        let notification = userNotifications[indexPath.row]
         
         let currentItem = notification["currentItem"] as! Item
         let potentialItem = notification["potentialItem"] as! Item
@@ -254,38 +269,51 @@ class NotificationViewController: UITableViewController, TradeNotificationDelega
                             otherItemScore *= 2
                         }
                         
-                        let childUpdates = [
-                            
-                            "/posts/\(currentItem.postID!)/tradeCount": String(myItemTradeCount) ,
-                            "/posts/\(potentialItem.postID!)/tradeCount": String(otherItemTradeCount),
+                        
+                        self.getUserNameAndImageUrl(uid: currentItem.userID!, completion: { (currentUserName, currentUserImageUrl) in
                             
                             
-                            "/posts/\(currentItem.postID!)/tradeScore": String(myItemScore),
-                            "/posts/\(potentialItem.postID!)/tradeScore": String(otherItemScore),
+                            
+                            self.getUserNameAndImageUrl(uid: potentialItem.userID!, completion: { (potentialUserName, potentialUserImageUrl) in
+                                
+                                
+                                let childUpdates = [
+                                    
+                                    "/posts/\(currentItem.postID!)/tradeCount": String(myItemTradeCount) ,
+                                    "/posts/\(potentialItem.postID!)/tradeCount": String(otherItemTradeCount),
+                                    
+                                    
+                                    "/posts/\(currentItem.postID!)/tradeScore": String(myItemScore),
+                                    "/posts/\(potentialItem.postID!)/tradeScore": String(otherItemScore),
+                                    
+                                    
+                                    "/posts/\(currentItem.postID!)/author": potentialItem.userID!,
+                                    "/posts/\(potentialItem.postID!)/author":currentItem.userID!,
+                                    
+                                    "/posts/\(currentItem.postID!)/authorName": potentialUserName!,
+                                    "/posts/\(potentialItem.postID!)/authorName":currentUserName!,
+                                    
+                                    "/posts/\(currentItem.postID!)/authorImageUrl": potentialUserImageUrl!,
+                                    "/posts/\(potentialItem.postID!)/authorImageUrl":currentUserImageUrl!,
+                                    
+                                    ]
+                                
+                                
+                                self.ref.updateChildValues(childUpdates)
+                                self.declineTrade(indexPath: indexPath)
+                                
+                                
+                            })
                             
                             
-                            "/posts/\(currentItem.postID!)/author": potentialItem.userID!,
-                            "/posts/\(potentialItem.postID!)/author":currentItem.userID!,
                             
-                            ]
+                            
+                        })
                         
                         
-                        self.ref.updateChildValues(childUpdates)
-                        
-                        
-                        //remove notification from user
-                        
-//                        let userNotificationRef = self.ref.database.reference().child("/users/\(self.sharedUser.firebaseUID!)/notifications/\(notification["postKey"] as! String)")
-//                        
-//                        
-//                        userNotificationRef.removeValue()
 
                         
-                        self.declineTrade(cell: cell)
-                        
-                        
                     })
-                    
                     
                 })
                 
@@ -295,19 +323,24 @@ class NotificationViewController: UITableViewController, TradeNotificationDelega
         
     }
     
-    func declineTrade(cell: NotificationTableViewCell) {
+    func declineTrade(indexPath: IndexPath) {
         
-        let indexPath = tableView?.indexPath(for: cell)
+       // let indexPath = tableView?.indexPath(for: cell)
         
-        let notification = userNotifications[indexPath!.row]
+        let notification = userNotifications[indexPath.row]
         
         let userNotificationRef = ref.database.reference().child("/users/\(sharedUser.firebaseUID!)/notifications/\(notification["postKey"] as! String)")
         
         
         userNotificationRef.removeValue()
-        userNotifications.remove(at: indexPath!.row)
-        tableView.reloadData()
+        userNotifications.remove(at: indexPath.row)
         
+
+        tableView.beginUpdates()
+        tableView.deleteRows(at: [indexPath], with: .top)
+        tableView.endUpdates()
+
+
     }
     
     // MARK: - Table view data source
@@ -332,10 +365,35 @@ class NotificationViewController: UITableViewController, TradeNotificationDelega
         //let notificationID = notifications[indexPath.row]["notificationID"] as! String
         
         
-        cell.currentItemLabel.text = currentItem.description
-        cell.newItemLabel.text = potentialItem.description
-        cell.delegate = self
+        cell.currentItemImageView.loadImage(urlString: currentItem.imageURL)
+        cell.newItemImageView.loadImage(urlString: potentialItem.imageURL)
         
         return cell
     }
+    
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let accept = UITableViewRowAction(style: .normal, title: "Accept") { action, index in
+            //let cell = tableView.cellForRow(at: index) as! NotificationTableViewCell
+            self.acceptTrade(indexPath: index)
+        }
+        accept.backgroundColor = .green
+        
+        let decline = UITableViewRowAction(style: .normal, title: "Decline") { action, index in
+            
+            //let cell = tableView.cellForRow(at: index) as! NotificationTableViewCell
+            self.declineTrade(indexPath: index)
+            
+        }
+        decline.backgroundColor = .red
+        
+        return [accept, decline]
+    }
+    
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // the cells you would like the actions to appear needs to be editable
+        return true
+    }
+
 }

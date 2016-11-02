@@ -21,7 +21,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        tableView.separatorStyle = .none
         //extendedLayoutIncludesOpaqueBars = true
         
         

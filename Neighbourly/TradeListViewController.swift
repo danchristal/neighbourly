@@ -46,7 +46,7 @@ class TradeListViewController: UICollectionViewController, UICollectionViewDeleg
         ref = FIRDatabase.database().reference()
         let postRef = ref.database.reference().child("posts")
         
-        postRef.queryOrdered(byChild: uid!).observeSingleEvent(of: .value, with: { (snapshot) in
+        postRef.queryOrdered(byChild: "author").queryEqual(toValue: uid!).observeSingleEvent(of: .value, with: { (snapshot) in
             
             for child in snapshot.children{
                 let item = Item(snapshot: child as! FIRDataSnapshot)
@@ -79,6 +79,7 @@ class TradeListViewController: UICollectionViewController, UICollectionViewDeleg
         
         itemCell.loadsImage(urlString: item.imageURL, completion: { (image) in
             itemCell.cellImageView.image = image
+            itemCell.spinner?.stopAnimating()
         })
         
         return itemCell

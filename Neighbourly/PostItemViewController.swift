@@ -13,7 +13,7 @@ import FirebaseAuth
 import CoreLocation
 
 
-class PostItemViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class PostItemViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     
     
@@ -24,13 +24,18 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
     private var imageURL: String!
     private var locationManager: LocationManager!
     private var postLocation: CLLocation!
-    
+    private let placeholderText = "Description: ISO new bicycle wheel"
     
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var locationImageView: UIImageView!
     
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var descriptionTextField: UITextField! { didSet {descriptionTextField.delegate = self} }
+
+    @IBOutlet weak var descriptionTextView: UITextView!
+        { didSet {descriptionTextView.delegate = self }}
+    
+    @IBOutlet weak var titleTextField: UITextField!
+        { didSet {titleTextField.delegate = self} }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +58,16 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     
+    override func viewWillAppear(_ animated: Bool) {
+        if descriptionTextView.text == "" || descriptionTextView.text == placeholderText {
+            descriptionTextView.text = placeholderText
+            descriptionTextView.textColor = .lightGray
+        } else {
+            descriptionTextView.text = descriptionTextView.text
+            descriptionTextView.textColor = .black
+        }
+    }
+    
     @IBAction func postItemButton(_ sender: UIButton) {
         
         let data = UIImageJPEGRepresentation(imageView.image!, 0.7)!
@@ -74,16 +89,19 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
             //self.ref.child("posts").child(key).updateChildValues(["imageURL": self.imageURL])
             
             let user = User.shared
-            
+
             let post: Dictionary<String, Any> = [
-                                                    "description": self.descriptionTextField.text!,
+                                                    "title": self.titleTextField.text!,
+                                                    "description": self.descriptionTextView.text!,
                                                     "imageURL" : self.imageURL,
                                                     "location": self.locationLabel.text!,
                                                     "latitude": self.postLocation.coordinate.latitude,
                                                     "longitude": self.postLocation.coordinate.longitude,
                                                     "author": user.firebaseUID!,
-                                                    "tradeCount": 1,
-                                                    "tradeScore": 0
+                                                    "authorName": user.givenName!,
+                                                    "tradeCount": "0",
+                                                    "tradeScore": "1",
+                                                    "authorImageUrl": user.imageUrl!.absoluteString,
                                                 ]
             
             let childUpdates = ["/posts/\(key)/": post]
@@ -125,6 +143,37 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
         imageView.image = image
         dismiss(animated: true, completion: nil)
         
+    }
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        descriptionTextView.textColor = .black
+        
+        if descriptionTextView.text == placeholderText {
+            descriptionTextView.text = ""
+        }
+        return true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        animateViewMoving(true, moveValue: 150)
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        animateViewMoving(false, moveValue: 150)
+        if(textView.text == "") {
+            descriptionTextView.text = placeholderText
+            descriptionTextView.textColor = .lightGray
+        }
+    }
+    
+    func animateViewMoving (_ up:Bool, moveValue :CGFloat){
+        let movementDuration:TimeInterval = 0.3
+        let movement:CGFloat = ( up ? -moveValue : moveValue)
+        UIView.beginAnimations( "animateView", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(movementDuration )
+        view.frame = view.frame.offsetBy(dx: 0,  dy: movement)
+        UIView.commitAnimations()
     }
     
 }

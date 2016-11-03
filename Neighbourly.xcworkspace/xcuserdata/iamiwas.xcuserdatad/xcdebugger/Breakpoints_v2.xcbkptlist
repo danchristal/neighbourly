@@ -356,11 +356,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Neighbourly/ItemCollectionViewController.swift"
-            timestampString = "499820156.982842"
+            timestampString = "499832178.798762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "sendTradeOffer(for:with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -372,11 +372,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Neighbourly/ItemCollectionViewController.swift"
-            timestampString = "499820156.982842"
+            timestampString = "499832178.798762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "253"
-            endingLineNumber = "253"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
             landmarkName = "getUserToken(uid:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -388,11 +388,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Neighbourly/ItemCollectionViewController.swift"
-            timestampString = "499820156.982842"
+            timestampString = "499832178.798762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "getUserToken(uid:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -420,11 +420,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Neighbourly/ItemCollectionViewController.swift"
-            timestampString = "499820156.982842"
+            timestampString = "499832178.798762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
             landmarkName = "getUserToken(uid:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -500,11 +500,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Neighbourly/ItemCollectionViewController.swift"
-            timestampString = "499820156.982842"
+            timestampString = "499832178.798762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "sendTradeOffer(for:with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -516,11 +516,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Neighbourly/ItemCollectionViewController.swift"
-            timestampString = "499820156.982842"
+            timestampString = "499832178.798762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
             landmarkName = "sendTradeOffer(for:with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -667,6 +667,22 @@
             endingLineNumber = "28"
             landmarkName = "awakeFromNib()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Neighbourly/NotificationViewController.swift"
+            timestampString = "499833703.231313"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "NotificationViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

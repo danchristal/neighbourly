@@ -123,10 +123,6 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
 
     }
 
-    
-
-
-    
     // MARK: UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -250,7 +246,7 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
                 
                 let user = snapshot.childSnapshot(forPath: uid).value as! [String:Any]
                 
-                let userToken = user["token"] as! String
+                let userToken = user["installToken"] as! String
 //                let userName = user["givenName"] as! String
                 
                 DispatchQueue.main.async {

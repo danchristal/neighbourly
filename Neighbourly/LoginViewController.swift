@@ -29,6 +29,10 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         GIDSignIn.sharedInstance().signInSilently() //sign in silently if already authenticated
 
         
+        if let image = UIImage(named: "Dawn-1536x2048"){
+            view.layer.backgroundColor = UIColor(patternImage: image).cgColor
+        }
+        
         // Configure the sign-in button look/feel
         signInButton = GIDSignInButton(frame: CGRect(x: 0, y: 0, width: 230, height: 48))
         signInButton.center = view.center
@@ -78,8 +82,9 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                     if snapshot.hasChild(uid!) {
                         //create user with data from firebase
                         print("user exists")
-                        
-                    
+
+                        let childUpdates = ["/users/\(uid!)/installToken": token]
+                        self.ref.updateChildValues(childUpdates)
                     }
                     else{
                         //post sharedUser to Firebase

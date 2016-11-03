@@ -30,6 +30,8 @@ class TradeListViewController: UICollectionViewController, UICollectionViewDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
         collectionView?.backgroundColor = .darkGray
         
         let layout = UICollectionViewFlowLayout()

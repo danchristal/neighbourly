@@ -17,18 +17,57 @@ class TabBarViewController: UITabBarController {
         
         //Add pop-over button for center tabbar item
         
-        //                DispatchQueue.main.async(execute: {
-        //                    let button: UIButton = UIButton(type: .custom)
-        //                    let win:UIWindow = UIApplication.shared.delegate!.window!!
-        //
-        //                    button.frame = CGRect(x: 0.0, y: win.frame.size.height - 65, width: 55, height: 55)
-        //                    button.center = CGPoint(x:win.center.x , y: button.center.y)
-        //
-        //                    button.setBackgroundImage(#imageLiteral(resourceName: "704-compose") , for: .normal)
-        //                    button.setBackgroundImage(#imageLiteral(resourceName: "704-compose"), for: .highlighted)
-        //                    win.addSubview(button)
-        //                })
+        let button: UIButton = UIButton(type: .custom)
+        let win:UIWindow = UIApplication.shared.delegate!.window!!
+        
+        button.frame = CGRect(x: 0.0, y: win.frame.size.height - 35, width: 55, height: 55)
+        button.center = CGPoint(x:win.center.x , y: button.center.y)
+        
+//        button.setBackgroundImage(#imageLiteral(resourceName: "704-compose") , for: .normal)
+//        button.setBackgroundImage(#imageLiteral(resourceName: "704-compose"), for: .highlighted)
+        win.addSubview(button)
+        
+        button.addTarget(self, action: #selector(TabBarViewController.showNewPostVC), for: .touchDown)
+        
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(TabBarViewController.receivedNotification(_:)), name: NSNotification.Name(rawValue: "didReceiveNotification"), object: nil)
+        
+        
+        configureView()
+        
+        
+        for family: String in UIFont.familyNames
+        {
+            print("\(family)")
+            for names: String in UIFont.fontNames(forFamilyName: family)
+            {
+                print("== \(names)")
+            }
+        }
+    }
+    
+    func showNewPostVC(sender: UIButton) {
+        
+        let storyboard = UIStoryboard(name:"Main", bundle: nil)
+        guard let newPostVC = storyboard.instantiateViewController(withIdentifier: "newItemPost") as? PostItemViewController else{return}
+        newPostVC.modalPresentationStyle = .overCurrentContext
+        
+        
+        self.present(newPostVC, animated: true, completion: nil)
+    }
+    
+    func configureView() {
+        
+        // Change the font and size of nav bar text
+        if let navBarFont = UIFont(name: "BillabongW00-Regular", size: 40.0) {
+            let navBarAttributesDictionary: [String: Any]? = [
+                NSForegroundColorAttributeName: UIColor.black,
+                NSFontAttributeName: navBarFont
+            ]
+            //navigationController?.navigationBar.titleTextAttributes = navBarAttributesDictionary
+            UINavigationBar.appearance().titleTextAttributes = navBarAttributesDictionary
+        }
     }
     
     override func didReceiveMemoryWarning() {

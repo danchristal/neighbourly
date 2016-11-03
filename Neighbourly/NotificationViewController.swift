@@ -41,6 +41,9 @@ class NotificationViewController: UITableViewController {
         tableView.contentInset.top = 20
         tableView.separatorStyle = .none
         
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
         //get reference to database
         ref = FIRDatabase.database().reference()
         

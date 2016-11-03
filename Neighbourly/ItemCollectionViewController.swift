@@ -51,6 +51,8 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         //start listening for location
         locationManager = LocationManager.shared
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
         
         //FIRMessaging.messaging().subscribe(toTopic: "/topics/all")
         
@@ -120,6 +122,9 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         })
 
     }
+
+    
+
 
     
     // MARK: UICollectionViewDataSource
@@ -261,7 +266,6 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "showDetail", sender: self)
     }
-    
     
     // MARK: - UIPopoverPresentationControllerDelegate
     

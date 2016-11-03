@@ -15,6 +15,7 @@ import CoreLocation
 
 class PostItemViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
     
     @IBOutlet var tapGesture: UITapGestureRecognizer!
@@ -45,6 +46,28 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
         let storage = FIRStorage.storage()
         storageRef = storage.reference(forURL: "gs://neighbourly-deeda.appspot.com")
         
+        //Add notifications to show/hide keyboard
+        NotificationCenter.default.addObserver(self, selector: #selector(PostItemViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PostItemViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+    }
+    
+    
+    func keyboardWillShow(notification: NSNotification) { 
+
+        bottomConstraint.constant = 260
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    func keyboardWillHide(notification: NSNotification) {
+        
+        bottomConstraint.constant = 63
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -57,6 +80,10 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: self.view.window)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: self.view.window)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         if descriptionTextView.text == "" || descriptionTextView.text == placeholderText {
@@ -107,7 +134,10 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
             let childUpdates = ["/posts/\(key)/": post]
             self.ref.updateChildValues(childUpdates)
         }
-        tabBarController?.selectedIndex = 0
+        
+        presentingViewController?.dismiss(animated: true, completion: nil)
+        
+        //tabBarController?.selectedIndex = 0
     }
     
     override func didReceiveMemoryWarning() {
@@ -136,7 +166,7 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
         dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any] ) {
         
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         imageView.contentMode = .scaleAspectFill
@@ -153,27 +183,14 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
         }
         return true
     }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        animateViewMoving(true, moveValue: 150)
-    }
-    
+
     func textViewDidEndEditing(_ textView: UITextView) {
-        animateViewMoving(false, moveValue: 150)
+
         if(textView.text == "") {
             descriptionTextView.text = placeholderText
             descriptionTextView.textColor = .lightGray
         }
-    }
-    
-    func animateViewMoving (_ up:Bool, moveValue :CGFloat){
-        let movementDuration:TimeInterval = 0.3
-        let movement:CGFloat = ( up ? -moveValue : moveValue)
-        UIView.beginAnimations( "animateView", context: nil)
-        UIView.setAnimationBeginsFromCurrentState(true)
-        UIView.setAnimationDuration(movementDuration )
-        view.frame = view.frame.offsetBy(dx: 0,  dy: movement)
-        UIView.commitAnimations()
+        
     }
     
 }

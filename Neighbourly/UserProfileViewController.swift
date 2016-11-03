@@ -14,6 +14,9 @@ class UserProfileViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
         tableView.separatorStyle = .none
         tableView.contentInset.top = 20
         tableView.allowsSelection = false

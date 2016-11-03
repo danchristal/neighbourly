@@ -24,6 +24,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
         tableView.separatorStyle = .none
         //extendedLayoutIncludesOpaqueBars = true
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         searchBar.delegate = self
         ref = FIRDatabase.database().reference()
@@ -119,6 +120,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
             let indexPath = tableView.indexPathForSelectedRow
             let detailViewController = segue.destination as! ItemDetailViewController
             detailViewController.item = searchResults[(indexPath!.row)]
+            
             
         }
     }

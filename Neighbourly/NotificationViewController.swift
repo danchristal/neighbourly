@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import Alamofire
 
 
 class NotificationViewController: UITableViewController {
@@ -210,7 +211,7 @@ class NotificationViewController: UITableViewController {
     
     
     func getUserNameAndImageUrl(uid: String, completion: @escaping (String?, String?) -> Void) {
-
+        
         let userInfoRef = self.ref.database.reference().child("/users/\(uid)")
         
         userInfoRef.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -223,6 +224,23 @@ class NotificationViewController: UITableViewController {
             completion(userName, userImageUrl)
             
         })
+    }
+    
+    
+    func getUserToken(uid: String, completion: @escaping (String?) -> Void) {
+        
+        let userInfoRef = self.ref.database.reference().child("/users/\(uid)")
+        
+        userInfoRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let snapshotValue = snapshot.value as! [String:Any]
+            
+            let token = snapshotValue["installToken"] as! String
+            
+            completion(token)
+            
+        })
+        
     }
     
     func acceptTrade(indexPath: IndexPath) {
@@ -280,32 +298,62 @@ class NotificationViewController: UITableViewController {
                             self.getUserNameAndImageUrl(uid: potentialItem.userID!, completion: { (potentialUserName, potentialUserImageUrl) in
                                 
                                 
-                                let childUpdates = [
-                                    
-                                    "/posts/\(currentItem.postID!)/tradeCount": String(myItemTradeCount) ,
-                                    "/posts/\(potentialItem.postID!)/tradeCount": String(otherItemTradeCount),
+                                self.getUserToken(uid: potentialItem.userID!, completion: { (token) in
                                     
                                     
-                                    "/posts/\(currentItem.postID!)/tradeScore": String(myItemScore),
-                                    "/posts/\(potentialItem.postID!)/tradeScore": String(otherItemScore),
+                                    
+                                    let childUpdates = [
+                                        
+                                        "/posts/\(currentItem.postID!)/tradeCount": String(myItemTradeCount) ,
+                                        "/posts/\(potentialItem.postID!)/tradeCount": String(otherItemTradeCount),
+                                        
+                                        
+                                        "/posts/\(currentItem.postID!)/tradeScore": String(myItemScore),
+                                        "/posts/\(potentialItem.postID!)/tradeScore": String(otherItemScore),
+                                        
+                                        
+                                        "/posts/\(currentItem.postID!)/author": potentialItem.userID!,
+                                        "/posts/\(potentialItem.postID!)/author":currentItem.userID!,
+                                        
+                                        "/posts/\(currentItem.postID!)/authorName": potentialUserName!,
+                                        "/posts/\(potentialItem.postID!)/authorName":currentUserName!,
+                                        
+                                        "/posts/\(currentItem.postID!)/authorImageUrl": potentialUserImageUrl!,
+                                        "/posts/\(potentialItem.postID!)/authorImageUrl":currentUserImageUrl!,
+                                        
+                                        ]
                                     
                                     
-                                    "/posts/\(currentItem.postID!)/author": potentialItem.userID!,
-                                    "/posts/\(potentialItem.postID!)/author":currentItem.userID!,
                                     
-                                    "/posts/\(currentItem.postID!)/authorName": potentialUserName!,
-                                    "/posts/\(potentialItem.postID!)/authorName":currentUserName!,
                                     
-                                    "/posts/\(currentItem.postID!)/authorImageUrl": potentialUserImageUrl!,
-                                    "/posts/\(potentialItem.postID!)/authorImageUrl":currentUserImageUrl!,
                                     
+                                    //send push notification to newItem owner
+                                    
+                                    let headers: HTTPHeaders = [
+                                        "Authorization": "key=AIzaSyBPRqwey2B-KRiDN6_jK3JZPSA43Of7f4U",
+                                        "Content-Type": "application/json"
                                     ]
-                                
-                                
-                                self.ref.updateChildValues(childUpdates)
-                                self.declineTrade(indexPath: indexPath)
-                                
-                                
+                                    let notification: [String:String] = [
+                                        "title":"Trade Request",
+                                        "text":"\(self.sharedUser.givenName!) has accepted your trade request.",
+                                        "sound":"default",
+                                        "badge": "1"
+                                    ]
+                                    let parameters: [String:Any] = ["notification":notification,
+                                                                    "project_id":"com.kidsmoke.Neighbourly",
+                                                                    "to":token,
+                                                                    "priority":"high",
+                                                                    ]
+                                    
+                                    let _ = Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                                    
+                                    
+                                    
+                                    
+                                    self.ref.updateChildValues(childUpdates)
+                                    self.declineTrade(indexPath: indexPath)
+                                    
+                                })
                             })
                             
                             
@@ -314,7 +362,7 @@ class NotificationViewController: UITableViewController {
                         })
                         
                         
-
+                        
                         
                     })
                     
@@ -328,7 +376,7 @@ class NotificationViewController: UITableViewController {
     
     func declineTrade(indexPath: IndexPath) {
         
-       // let indexPath = tableView?.indexPath(for: cell)
+        // let indexPath = tableView?.indexPath(for: cell)
         
         let notification = userNotifications[indexPath.row]
         
@@ -338,12 +386,12 @@ class NotificationViewController: UITableViewController {
         userNotificationRef.removeValue()
         userNotifications.remove(at: indexPath.row)
         
-
+        
         tableView.beginUpdates()
         tableView.deleteRows(at: [indexPath], with: .top)
         tableView.endUpdates()
-
-
+        
+        
     }
     
     // MARK: - Table view data source
@@ -398,5 +446,5 @@ class NotificationViewController: UITableViewController {
         // the cells you would like the actions to appear needs to be editable
         return true
     }
-
+    
 }

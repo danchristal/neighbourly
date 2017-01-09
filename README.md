@@ -2,7 +2,7 @@
 Final Project for Lighthouse Labs (2 week build time)
 By Dan
 
-iOS application developed in Swift.
+iOS application developed in Swift 3.0.
 
 Neighbourly is a trade only community created to allow users to exchange goods &
 services in their neighbourhood without exchanging money.
@@ -16,8 +16,7 @@ The longer a user continues to exchange an item, the more the score for that ind
 
 Neighbourly uses Firebase realtime database in order to allow users to see the newest posts at all times without needing to refresh. 
 
-CoreLocation is used to determine the new posts general area, in terms of the current neighbourhood to allow other users to determine how near 
-posts are.
+CoreLocation is used to determine the new posts general area, in terms of the current neighbourhood, to allow other users to determine how near posts are.
 
 Push notifications are then used to notify users of pending and accepted trade requests.
 

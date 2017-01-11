@@ -8,7 +8,6 @@
 
 import UIKit
 import FirebaseDatabase
-import Alamofire
 
 
 class NotificationViewController: UITableViewController {
@@ -329,13 +328,9 @@ class NotificationViewController: UITableViewController {
                                     
                                     //send push notification to newItem owner
                                     
-                                    let headers: HTTPHeaders = [
-                                        "Authorization": "key=AIzaSyBPRqwey2B-KRiDN6_jK3JZPSA43Of7f4U",
-                                        "Content-Type": "application/json"
-                                    ]
                                     let notification: [String:String] = [
                                         "title":"Trade Request",
-                                        "text":"\(self.sharedUser.givenName!) has accepted your trade request.",
+                                        "text":"\(self.sharedUser.givenName!) has requested a trade from you",
                                         "sound":"default",
                                         "badge": "1"
                                     ]
@@ -345,7 +340,43 @@ class NotificationViewController: UITableViewController {
                                                                     "priority":"high",
                                                                     ]
                                     
-                                    let _ = Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                                    let url = URL(string: "https://fcm.googleapis.com/fcm/send")
+                                    let session = URLSession.shared
+                                    var request = URLRequest(url: url! as URL)
+                                    
+                                    request.httpMethod = "POST"
+                                    
+                                    do {
+                                        request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+                                    } catch let error {
+                                        print(error.localizedDescription)
+                                    }
+                                    
+                                    
+                                    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                                    request.addValue("key=AIzaSyBPRqwey2B-KRiDN6_jK3JZPSA43Of7f4U", forHTTPHeaderField: "Authorization")
+                                    
+                                    
+                                    let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+                                        
+                                        guard error == nil else { return }
+                                        
+                                        guard let data = data else { return }
+                                        
+                                        do {
+                                            //create json object from data
+                                            if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
+                                                print(json)
+                                                // handle json...
+                                            }
+                                        } catch let error {
+                                            print(error.localizedDescription)
+                                        }
+                                        
+                                        
+                                    })
+                                    
+                                    task.resume()
                                     
                                     
                                     

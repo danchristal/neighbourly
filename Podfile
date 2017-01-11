@@ -11,6 +11,6 @@ target 'Neighbourly' do
   pod 'Firebase/Storage'
   pod 'Firebase/Messaging'
   pod 'GoogleSignIn'
-  pod 'Alamofire'
+
 
 end

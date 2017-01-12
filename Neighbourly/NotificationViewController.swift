@@ -330,7 +330,7 @@ class NotificationViewController: UITableViewController {
                                     
                                     let notification: [String:String] = [
                                         "title":"Trade Request",
-                                        "text":"\(self.sharedUser.givenName!) has requested a trade from you",
+                                        "text":"\(self.sharedUser.givenName!) has accepted a trade from you",
                                         "sound":"default",
                                         "badge": "1"
                                     ]

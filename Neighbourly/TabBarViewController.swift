@@ -23,8 +23,6 @@ class TabBarViewController: UITabBarController {
         button.frame = CGRect(x: 0.0, y: win.frame.size.height - 35, width: 55, height: 55)
         button.center = CGPoint(x:win.center.x , y: button.center.y)
         
-//        button.setBackgroundImage(#imageLiteral(resourceName: "704-compose") , for: .normal)
-//        button.setBackgroundImage(#imageLiteral(resourceName: "704-compose"), for: .highlighted)
         win.addSubview(button)
         
         button.addTarget(self, action: #selector(TabBarViewController.showNewPostVC), for: .touchDown)
@@ -60,7 +58,7 @@ class TabBarViewController: UITabBarController {
     func configureView() {
         
         // Change the font and size of nav bar text
-        if let navBarFont = UIFont(name: "BillabongW00-Regular", size: 40.0) {
+        if let navBarFont = UIFont(name: "AmaticSC-Bold", size: 40.0) {
             let navBarAttributesDictionary: [String: Any]? = [
                 NSForegroundColorAttributeName: UIColor.black,
                 NSFontAttributeName: navBarFont

@@ -4,6 +4,7 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>AmaticSC-Bold.ttf</string>
 		<string>Billabong W00 Regular.ttf</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>

@@ -10,6 +10,6 @@ import Foundation
 extension UIFont {
     class var navbarTitleFont: UIFont
     {
-        return UIFont(name: "BillabongW00-Regular", size: 20) ?? UIFont.systemFont(ofSize: 20)
+        return UIFont(name: "AmaticSC-Bold", size: 20) ?? UIFont.systemFont(ofSize: 20)
     }
 }

@@ -46,7 +46,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         
         guard let location = locations.last else{return}
         
-        let timeSinceLastLocationUpdate = Double.abs(location.timestamp.timeIntervalSinceNow)
+        let timeSinceLastLocationUpdate = abs(location.timestamp.timeIntervalSinceNow)
+        
         
         if(timeSinceLastLocationUpdate < 10.0){
             lastLocation = location
@@ -59,7 +60,10 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         
         CLGeocoder().reverseGeocodeLocation(location, completionHandler:
             {(placemarks, error) in
-                if (error != nil) {print("reverse geodcode fail: \(error?.localizedDescription)")}
+                if let error = error {
+                    print("reverse geodcode fail: \(error.localizedDescription)")
+                    return
+                }
                 guard let placemark = placemarks?.first else {return}
                 completion("\(placemark.subLocality!), \(placemark.locality!), \(placemark.administrativeArea!)", location)
         })

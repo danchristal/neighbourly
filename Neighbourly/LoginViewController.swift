@@ -51,9 +51,6 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
             return
         }
         
-        
-        
-        
         let authentication = user.authentication
         let credential = FIRGoogleAuthProvider.credential(withIDToken: (authentication?.idToken)!,
                                                           accessToken: (authentication?.accessToken)!)
@@ -102,12 +99,8 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                         
                     }
                 })
-                
-                
             }
-            
         })
-        
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {

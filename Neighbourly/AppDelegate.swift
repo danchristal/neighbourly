@@ -134,7 +134,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         let userInfo = notification.request.content.userInfo
         // Print message ID.
-        print("inside userNotificationCenter")
+        //print("inside userNotificationCenter")
         print("Message ID: \(userInfo["gcm.message_id"]!)")
         // Print full message.
         print("%@", userInfo)

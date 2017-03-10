@@ -168,7 +168,7 @@ class ItemCollectionViewController: UICollectionViewController, UICollectionView
         
         let indexPath = collectionView!.indexPath(for: cell)!
         desiredItem = itemList[indexPath.item]
-        print(desiredItem.description)
+        //print(desiredItem.description)
         
         let storyboard = UIStoryboard(name:"Main", bundle: nil)
         guard let tradeViewController = storyboard.instantiateViewController(withIdentifier: "tradeList") as? TradeListViewController else{return}
@@ -252,20 +252,13 @@ class ItemCollectionViewController: UICollectionViewController, UICollectionView
             
             let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                 
-                guard error == nil else { return }
-                
-                guard let data = data else { return }
-                
-                do {
-                    //create json object from data
-                    if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
-                        print(json)
-                        // handle json...
-                    }
-                } catch let error {
+                if let error = error {
                     print(error.localizedDescription)
-                }
-                
+                    return
+                } else if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
+                    // check for http errors
+                    print("Status Code should be 200, but is \(httpStatus.statusCode)")
+                    print("Response = \(response)")                    }
                 
             })
             
@@ -277,7 +270,7 @@ class ItemCollectionViewController: UICollectionViewController, UICollectionView
     func getUserToken(uid: String, completion: @escaping (String) -> Void){
         
         let userRef = self.ref.database.reference().child("users")
-        print("getting userToken and name", uid)
+        //print("getting userToken and name", uid)
         
         userRef.observeSingleEvent(of: .value, with: { (snapshot) in
             

@@ -22,5 +22,3 @@ Push notifications are then used to notify users of pending and accepted trade r
 
 CocoaPods:
 - Firebase - BaaS for the project.
-- Google Sign-in - User authentication for use with Firebase.
-- Alamofire - used for creating http requests to send push notifications.

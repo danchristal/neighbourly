@@ -24,7 +24,6 @@
 		D97A563A1DB57F6D0090C25A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D97A56391DB57F6D0090C25A /* GoogleService-Info.plist */; };
 		D98718BC1DBE8B0800D12ECE /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98718BB1DBE8B0800D12ECE /* TabBarViewController.swift */; };
 		D98B11771DB68CF50050FEA6 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B11761DB68CF50050FEA6 /* ItemDetailViewController.swift */; };
-		D98B87ED1DCA9D2600EB0B35 /* Billabong W00 Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D98B87EC1DCA9D0600EB0B35 /* Billabong W00 Regular.ttf */; };
 		D98B87EF1DCAA0F500EB0B35 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B87EE1DCAA0F500EB0B35 /* UIFont.swift */; };
 		D99B88531DB69EF100CE9912 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99B88521DB69EF100CE9912 /* LoginViewController.swift */; };
 		D99D18731DBECB9800A284BC /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D18721DBECB9800A284BC /* UserProfileViewController.swift */; };
@@ -55,7 +54,6 @@
 		D9123DE01DB569F80096A2AE /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		D929BF0D1DC2A19F00964AE7 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		D929BF0F1DC2C3C100964AE7 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
-		D94A39AB1DB6A7C200FA12C1 /* Neighbourly-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Neighbourly-Bridging-Header.h"; sourceTree = "<group>"; };
 		D94EC5D61DC1829900ABB1A3 /* com.kidsmoke.Neighbourly.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = com.kidsmoke.Neighbourly.p12; sourceTree = "<group>"; };
 		D95329BC1E720886001E4909 /* AmaticSC-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AmaticSC-Bold.ttf"; sourceTree = "<group>"; };
 		D95C7C0B1DC8699500830179 /* MyItemsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyItemsTableViewController.swift; sourceTree = "<group>"; };
@@ -65,7 +63,6 @@
 		D97A56391DB57F6D0090C25A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D98718BB1DBE8B0800D12ECE /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		D98B11761DB68CF50050FEA6 /* ItemDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
-		D98B87EC1DCA9D0600EB0B35 /* Billabong W00 Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Billabong W00 Regular.ttf"; sourceTree = "<group>"; };
 		D98B87EE1DCAA0F500EB0B35 /* UIFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
 		D99B88521DB69EF100CE9912 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D99D18721DBECB9800A284BC /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
@@ -120,7 +117,6 @@
 				D9123DC11DB54EE00096A2AE /* Products */,
 				9A5D445D540A91651C7D42CF /* Pods */,
 				C37A80A099040FF9B10E81E2 /* Frameworks */,
-				D94A39AB1DB6A7C200FA12C1 /* Neighbourly-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,7 +143,6 @@
 		D9123DD91DB54F480096A2AE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D98B87EC1DCA9D0600EB0B35 /* Billabong W00 Regular.ttf */,
 				D95329BC1E720886001E4909 /* AmaticSC-Bold.ttf */,
 				D94EC5D61DC1829900ABB1A3 /* com.kidsmoke.Neighbourly.p12 */,
 				D9CAE86D1DBEA9E80042E005 /* Neighbourly.entitlements */,
@@ -287,7 +282,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D98B87ED1DCA9D2600EB0B35 /* Billabong W00 Regular.ttf in Resources */,
 				D9123DCE1DB54EE00096A2AE /* LaunchScreen.storyboard in Resources */,
 				D97A563A1DB57F6D0090C25A /* GoogleService-Info.plist in Resources */,
 				D9123DCB1DB54EE00096A2AE /* Assets.xcassets in Resources */,
@@ -508,7 +502,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kidsmoke.Neighbourly;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Neighbourly-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -529,7 +523,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kidsmoke.Neighbourly;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Neighbourly-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

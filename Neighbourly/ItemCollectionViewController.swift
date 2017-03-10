@@ -20,7 +20,7 @@ protocol ItemToTradeProtocol {
     func itemToTradeSelected(item: Item)
 }
 
-class ItemCollectionViewController: UICollectionViewController, UIPopoverPresentationControllerDelegate, TradeForItemProtocol, ItemToTradeProtocol {
+class ItemCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate, TradeForItemProtocol, ItemToTradeProtocol {
     
     //MARK: Properties
     private let reuseIdentifier = "itemCell"
@@ -300,6 +300,14 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "showDetail", sender: self)
+    }
+    
+    // MARK: UICollectionViewDelegateFlowLayout
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: collectionView.bounds.size.width, height: 470)
+        
     }
     
     // MARK: - UIPopoverPresentationControllerDelegate

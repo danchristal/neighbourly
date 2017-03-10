@@ -9,42 +9,88 @@
 import UIKit
 import Firebase
 import FirebaseAuth
-import GoogleSignIn
 
-class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate  {
+class LoginViewController: UIViewController  {
     
-    var signInButton: GIDSignInButton!
     private var ref: FIRDatabaseReference!
     let sharedUser = User.shared
 
+    @IBOutlet weak var email: UITextField!
+    @IBOutlet weak var password: UITextField!
 
+    @IBAction func loginPressed(_ sender: UIButton) {
+        
+        FIRAuth.auth()?.signIn(withEmail: email.text!, password: password.text!, completion: { (user, error) in
+            
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+
+            if let user = user {
+                
+                let uid = user.uid
+                print("uid: \(uid)")
+
+                let token = FIRInstanceID.instanceID().token()
+                
+                //create user object from database
+                self.sharedUser.setup(firebaseUID: uid, installToken: token)
+                
+                
+                let userRef = self.ref.database.reference().child("users")
+                userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    //if user already exists, update install token
+                    if snapshot.hasChild(uid) {
+
+                        
+                        let childUpdates = ["/users/\(uid)/installToken": token]
+                        self.ref.updateChildValues(childUpdates)
+                    }
+                    else{
+                        //else create new user entry in database
+                        var userJson = self.sharedUser.toJSON()
+                        if let url = userJson["imageUrl"] as? URL{ //Convert URL to String for JSON
+                            userJson["imageUrl"] = url.absoluteString
+                        }
+                        
+                        
+                        let childUpdates = ["/users/\(uid)/": userJson]
+                        self.ref.updateChildValues(childUpdates)
+                        
+                    }
+                })
+                
+                
+                
+                
+                
+                //segue to post login view
+                self.performSegue(withIdentifier: "login", sender: self)
+                
+            }
+        
+            
+        })
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        GIDSignIn.sharedInstance().delegate = self
-        GIDSignIn.sharedInstance().uiDelegate = self
-        GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
-        
-        GIDSignIn.sharedInstance().signInSilently() //sign in silently if already authenticated
 
         
         if let image = UIImage(named: "Dawn-1536x2048"){
             view.layer.backgroundColor = UIColor(patternImage: image).cgColor
         }
         
-        // Configure the sign-in button look/feel
-        signInButton = GIDSignInButton(frame: CGRect(x: 0, y: 0, width: 230, height: 48))
-        signInButton.center = view.center
-        signInButton.style = .standard
-        view.addSubview(signInButton)
-        
+                
         ref = FIRDatabase.database().reference()
 
         
     }
     
    // func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    /*
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!){
         if let error = error {
             print(error.localizedDescription)
@@ -107,7 +153,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         try! FIRAuth.auth()!.signOut()
     }
 
-
+*/
     
     /*
     // MARK: - Navigation

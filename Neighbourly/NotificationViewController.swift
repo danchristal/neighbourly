@@ -218,7 +218,7 @@ class NotificationViewController: UITableViewController {
             let snapshotValue = snapshot.value as! [String:Any]
             
             let userName = snapshotValue["givenName"] as! String
-            let userImageUrl = snapshotValue["imageUrl"] as! String
+            let userImageUrl = snapshotValue["imageUrl"] as? String
             
             completion(userName, userImageUrl)
             
@@ -290,35 +290,35 @@ class NotificationViewController: UITableViewController {
                         }
                         
                         
-                        self.getUserNameAndImageUrl(uid: currentItem.userID!, completion: { (currentUserName, currentUserImageUrl) in
+                        self.getUserNameAndImageUrl(uid: currentItem.userID, completion: { (currentUserName, currentUserImageUrl) in
                             
                             
                             
-                            self.getUserNameAndImageUrl(uid: potentialItem.userID!, completion: { (potentialUserName, potentialUserImageUrl) in
+                            self.getUserNameAndImageUrl(uid: potentialItem.userID, completion: { (potentialUserName, potentialUserImageUrl) in
                                 
                                 
-                                self.getUserToken(uid: potentialItem.userID!, completion: { (token) in
+                                self.getUserToken(uid: potentialItem.userID, completion: { (token) in
                                     
                                     
                                     
                                     let childUpdates = [
                                         
-                                        "/posts/\(currentItem.postID!)/tradeCount": String(myItemTradeCount) ,
-                                        "/posts/\(potentialItem.postID!)/tradeCount": String(otherItemTradeCount),
+                                        "/posts/\(currentItem.postID)/tradeCount": String(myItemTradeCount) ,
+                                        "/posts/\(potentialItem.postID)/tradeCount": String(otherItemTradeCount),
                                         
                                         
-                                        "/posts/\(currentItem.postID!)/tradeScore": String(myItemScore),
-                                        "/posts/\(potentialItem.postID!)/tradeScore": String(otherItemScore),
+                                        "/posts/\(currentItem.postID)/tradeScore": String(myItemScore),
+                                        "/posts/\(potentialItem.postID)/tradeScore": String(otherItemScore),
                                         
                                         
-                                        "/posts/\(currentItem.postID!)/author": potentialItem.userID!,
-                                        "/posts/\(potentialItem.postID!)/author":currentItem.userID!,
+                                        "/posts/\(currentItem.postID)/author": potentialItem.userID,
+                                        "/posts/\(potentialItem.postID)/author":currentItem.userID,
                                         
-                                        "/posts/\(currentItem.postID!)/authorName": potentialUserName!,
-                                        "/posts/\(potentialItem.postID!)/authorName":currentUserName!,
+                                        "/posts/\(currentItem.postID)/authorName": potentialUserName,
+                                        "/posts/\(potentialItem.postID)/authorName":currentUserName,
                                         
-                                        "/posts/\(currentItem.postID!)/authorImageUrl": potentialUserImageUrl!,
-                                        "/posts/\(potentialItem.postID!)/authorImageUrl":currentUserImageUrl!,
+                                        "/posts/\(currentItem.postID)/authorImageUrl": potentialUserImageUrl,
+                                        "/posts/\(potentialItem.postID)/authorImageUrl":currentUserImageUrl,
                                         
                                         ]
                                     

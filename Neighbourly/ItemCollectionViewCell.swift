@@ -20,7 +20,7 @@ class ItemCollectionViewCell : UICollectionViewCell, CellHasDownloadTask {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var pointsLabel: UILabel!
     @IBOutlet weak var posterName: UILabel!
-    @IBOutlet weak var posterImage: UIImageView!{
+    @IBOutlet weak var posterImage: UIImageView! {
         didSet{
             posterImage.layer.cornerRadius = 15
         }
@@ -28,7 +28,7 @@ class ItemCollectionViewCell : UICollectionViewCell, CellHasDownloadTask {
     
     @IBOutlet weak var descriptionLabel: UILabel!
     var downloadTask : URLSessionDownloadTask? = nil
-    var delegate: ItemCollectionViewController?
+    weak var delegate: ItemCollectionViewController?
     
     
     @IBAction func tradePressed(_ sender: UIButton){
@@ -40,6 +40,7 @@ class ItemCollectionViewCell : UICollectionViewCell, CellHasDownloadTask {
         super.prepareForReuse()
         downloadTask?.suspend()
         cellImageView.image = nil
+        posterImage.image = nil
     }
     
 }

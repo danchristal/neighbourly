@@ -47,14 +47,12 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         postRef = ref.database.reference().child("posts")
         
         
+        
+        
         //start listening for location
         locationManager = LocationManager.shared
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-
-        
-        //FIRMessaging.messaging().subscribe(toTopic: "/topics/all")
-        
         
         //handle new posts since initial load
         childAddedHandle = postRef.observe(.childAdded, with: { (snapshot) in
@@ -71,6 +69,7 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         
         //handle initial data from Firebase
         valueHandle = postRef.observe(.value, with: { (snapshot) in
+            
             if !self.initialDataLoaded {
                 for child in snapshot.children {
                     let item = Item(snapshot: child as! FIRDataSnapshot)
@@ -84,30 +83,34 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
             }
         })
         
+        //listen for when an item has been updated
         childChangedHandle = postRef.observe(.childChanged, with: {(snapshot) in
             
             let item = Item(snapshot: snapshot)
+            
+            //find item in current list to be replaced with updated item
             let index = self.itemList.index { $0.postID == item.postID }
+            
             self.itemList.remove(at: index!)
             self.itemList.insert(item, at: index!)
             
             DispatchQueue.main.async {
-                
                 self.collectionView?.reloadItems(at: [IndexPath(item: index!, section: 0)])
-                
             }
             
         })
         
+        //listen for when an item has been deleted/removed
         childRemovedHandle = postRef.observe(.childRemoved, with: {(snapshot) in
             
             let item = Item(snapshot: snapshot)
+            
+            //find item in current list that matches item to be removed
             let index = self.itemList.index{ $0.postID == item.postID }
             self.itemList.remove(at: index!)
             
-            print("snapshot has \(snapshot.childrenCount) children")
-            
-            let storageRef = FIRStorage.storage().reference().child("/\(item.postID!).jpg")
+            //remove image associated with post from bucket
+            let storageRef = FIRStorage.storage().reference().child("/\(item.postID).jpg")
             storageRef.delete(completion: { (error) in
                 if let error = error {
                     print(error.localizedDescription)
@@ -137,15 +140,21 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         
         let item = itemList[indexPath.item]
         itemCell.descriptionLabel.text = item.description
-        // itemCell.imageView.loadImageOnCell(urlString: item.imageURL)
+
         itemCell.loadsImage(urlString: item.imageURL, completion: { (image) in
             itemCell.cellImageView.image = image
             itemCell.spinner?.stopAnimating()
         })
         
-        itemCell.posterImage.loadImage(urlString: item.userImageUrl)
+        //check if user has image associated with account, use default if not
+        if let userImageUrl = item.userImageUrl {
+            itemCell.posterImage.loadImage(urlString: userImageUrl)
+        } else {
+            itemCell.posterImage.image = UIImage(named: "default-user")
+        }
+        
         itemCell.posterName.text = item.username
-        itemCell.pointsLabel.text = "Score: \(item.tradeScore!)"
+        itemCell.pointsLabel.text = "Score: \(item.tradeScore)"
         itemCell.titleLabel.text = item.title
         itemCell.delegate = self
         
@@ -180,11 +189,11 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
     func sendTradeOffer(for newItem: Item, with currentItem: Item){
         //set both items to pending trade
         
-        guard newItem.postID! != currentItem.postID! else {return}
+        guard newItem.postID != currentItem.postID else {return}
         
         let childUpdates = [
-            "/posts/\(currentItem.postID!)/tradePending": newItem.postID!,
-            "/posts/\(newItem.postID!)/tradePending":currentItem.postID!
+            "/posts/\(currentItem.postID)/tradePending": newItem.postID,
+            "/posts/\(newItem.postID)/tradePending":currentItem.postID
         ]
         ref.updateChildValues(childUpdates)
         
@@ -199,7 +208,7 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         let key = ref.child("posts").childByAutoId().key
         
         let notificationUpdates = [
-            "/users/\(newItem.userID!)/notifications/\(key)": tradeOffer
+            "/users/\(newItem.userID)/notifications/\(key)": tradeOffer
         ]
         
         getUserToken(uid: newItem.userID, completion: { (token) in
@@ -306,9 +315,10 @@ class ItemCollectionViewController: UICollectionViewController, UIPopoverPresent
         
         if segue.identifier == "showDetail" {
             let paths = self.collectionView?.indexPathsForSelectedItems
-            let path = paths?.first
-            let detailViewController = segue.destination as! ItemDetailViewController
-            detailViewController.item = self.itemList[(path?.item)!]
+            guard let path = paths?.first else { return }
+            if let detailViewController = segue.destination as? ItemDetailViewController{
+                detailViewController.item = self.itemList[path.item]
+            }
         }
     }
 }

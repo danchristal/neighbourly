@@ -8,7 +8,7 @@
 
 import UIKit
 import FirebaseAuth
-import GoogleSignIn
+
 
 class UserProfileViewController: UITableViewController {
     
@@ -25,7 +25,7 @@ class UserProfileViewController: UITableViewController {
     @IBAction func didTapSignOut(_ sender: UIButton) {
 
         try! FIRAuth.auth()!.signOut()
-        GIDSignIn.sharedInstance().signOut()
+       
         let storyboard = UIStoryboard(name:"Main", bundle: nil)
         
         let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginView") as! LoginViewController

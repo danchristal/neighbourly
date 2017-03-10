@@ -24,7 +24,7 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
     private var storageRef: FIRStorageReference!
     private var imageURL: String!
     private var locationManager: LocationManager!
-    private var postLocation: CLLocation!
+    private var postLocation: CLLocation?
     private let placeholderText = "Description: ISO new bicycle wheel"
     
     @IBOutlet weak var locationLabel: UILabel!
@@ -122,13 +122,13 @@ class PostItemViewController: UIViewController, UIImagePickerControllerDelegate,
                                                     "description": self.descriptionTextView.text!,
                                                     "imageURL" : self.imageURL,
                                                     "location": self.locationLabel.text!,
-                                                    "latitude": self.postLocation.coordinate.latitude,
-                                                    "longitude": self.postLocation.coordinate.longitude,
+                                                    "latitude": self.postLocation?.coordinate.latitude ?? nil,
+                                                    "longitude": self.postLocation?.coordinate.longitude ?? nil,
                                                     "author": user.firebaseUID!,
                                                     "authorName": user.givenName!,
                                                     "tradeCount": "0",
                                                     "tradeScore": "1",
-                                                    "authorImageUrl": user.imageUrl!.absoluteString,
+                                                    "authorImageUrl": user.imageUrl?.absoluteString ?? nil,
                                                 ]
             
             let childUpdates = ["/posts/\(key)/": post]

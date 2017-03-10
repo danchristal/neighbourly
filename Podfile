@@ -10,7 +10,5 @@ target 'Neighbourly' do
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Messaging'
-  pod 'GoogleSignIn'
-
 
 end

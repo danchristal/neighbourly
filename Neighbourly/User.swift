@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import GoogleSignIn
 
 class User: NSObject, JSONAble {
     
@@ -26,22 +25,16 @@ class User: NSObject, JSONAble {
         super.init()
     }
     
-    func setup(withGoogleUser user: GIDGoogleUser, firebaseUID uid: String, token: String){
-        
-        fullName = user.profile.name
-        givenName = user.profile.givenName
-        familyName = user.profile.familyName
-        email = user.profile.email
-        hasImage = user.profile.hasImage
+    func setup(firebaseUID uid: String, installToken token: String?) {
+        fullName = "test"
+        givenName = "testy"
+        familyName = "Test"
+        email = "test@me.com"
+        hasImage = false
         firebaseUID = uid
         installToken = token
         
-        if(hasImage){
-            let dimension = round(120 * UIScreen.main.scale)
-            imageUrl = user.profile.imageURL(withDimension: UInt(dimension))
-        }
     }
-    
     
     func getName() -> String? {
         return fullName

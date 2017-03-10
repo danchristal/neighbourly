@@ -35,6 +35,8 @@ class ProfileImageViewCell: UITableViewCell {
         
         if let url = sharedUser.getImageUrl() {
             profileImageView.loadImage(urlString: url)
+        } else {
+            profileImageView.image = UIImage(named: "default-user")
         }
         
         let uid = FIRAuth.auth()?.currentUser?.uid

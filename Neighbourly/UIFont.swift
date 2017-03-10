@@ -6,7 +6,8 @@
 //  Copyright © 2016 Dan Christal. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
 extension UIFont {
     class var navbarTitleFont: UIFont
     {

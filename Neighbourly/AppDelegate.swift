@@ -11,7 +11,6 @@ import UserNotifications
 
 import Firebase
 import FirebaseAuth
-import GoogleSignIn
 import FirebaseMessaging
 
 @UIApplicationMain
@@ -60,10 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        
-        return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-    }
+//    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+//        
+//        return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+//    }
     
     
     

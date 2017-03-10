@@ -56,7 +56,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func getReverseGeocodeLocation(completion: @escaping (String, CLLocation?) -> Void){
         
-        guard let location = lastLocation else{completion("No connection!", nil);return}
+        guard let location = lastLocation else{completion("Location Not Available.", nil);return}
         
         CLGeocoder().reverseGeocodeLocation(location, completionHandler:
             {(placemarks, error) in
@@ -65,7 +65,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                     return
                 }
                 guard let placemark = placemarks?.first else {return}
-                completion("\(placemark.subLocality!), \(placemark.locality!), \(placemark.administrativeArea!)", location)
+                completion("\(placemark.subLocality!), \(placemark.locality!)", location)
         })
     }
     

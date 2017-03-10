@@ -47,7 +47,7 @@ class MyItemsTableViewController: UITableViewController {
         let item = myItemList[indexPath.row]
         
         
-        let itemToDeleteRef = ref.database.reference().child("/posts/\(item.postID!)")
+        let itemToDeleteRef = ref.database.reference().child("/posts/\(item.postID)")
         
         itemToDeleteRef.removeValue()
         

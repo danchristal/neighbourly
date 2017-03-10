@@ -122,9 +122,9 @@ class ItemCollectionViewController: UICollectionViewController, UICollectionView
                 
             }
         })
-
+        
     }
-
+    
     // MARK: UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -140,7 +140,7 @@ class ItemCollectionViewController: UICollectionViewController, UICollectionView
         
         let item = itemList[indexPath.item]
         itemCell.descriptionLabel.text = item.description
-
+        
         itemCell.loadsImage(urlString: item.imageURL, completion: { (image) in
             itemCell.cellImageView.image = image
             itemCell.spinner?.stopAnimating()
@@ -258,7 +258,8 @@ class ItemCollectionViewController: UICollectionViewController, UICollectionView
                 } else if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
                     // check for http errors
                     print("Status Code should be 200, but is \(httpStatus.statusCode)")
-                    print("Response = \(response)")                    }
+                    print("Response = \(response)")
+                }
                 
             })
             
@@ -279,7 +280,7 @@ class ItemCollectionViewController: UICollectionViewController, UICollectionView
                 let user = snapshot.childSnapshot(forPath: uid).value as! [String:Any]
                 
                 let userToken = user["installToken"] as! String
-//                let userName = user["givenName"] as! String
+                //                let userName = user["givenName"] as! String
                 
                 DispatchQueue.main.async {
                     completion(userToken)

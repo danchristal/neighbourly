@@ -3,7 +3,7 @@
 /GoogleService-Info.plist
 /*.*~
 *.xcuserstate
-xcuserdata/
+xcuserdata/*.*~
 *.p12
 *.cer
 Constants.swift

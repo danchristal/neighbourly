@@ -260,11 +260,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Neighbourly/NotificationViewController.swift"
-            timestampString = "499830224.56198"
+            timestampString = "511401315.925676"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "404"
-            endingLineNumber = "404"
+            startingLineNumber = "393"
+            endingLineNumber = "393"
             landmarkName = "acceptTrade(indexPath:)"
             landmarkType = "7">
          </BreakpointContent>

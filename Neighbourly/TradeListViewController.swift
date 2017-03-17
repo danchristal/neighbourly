@@ -10,9 +10,6 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAuth
 
-
-
-
 class TradeListViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     private let reuseIdentifier = "tradeListCell"

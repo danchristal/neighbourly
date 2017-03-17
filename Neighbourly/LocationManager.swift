@@ -12,9 +12,6 @@ import CoreLocation
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
     
-    fileprivate let baseUrl = "https://maps.googleapis.com/maps/api/geocode/json?"
-    fileprivate let apiKey = "AIzaSyCtiXoiVDbhxBzwmmOGnBGotFZydvaizSY"
-    
     private var locationManager: CLLocationManager!
     private var lastLocation: CLLocation?
     

@@ -228,12 +228,12 @@ class ItemCollectionViewController: UICollectionViewController, UICollectionView
                 "badge": "1"
             ]
             let parameters: [String:Any] = ["notification":notification,
-                                            "project_id":"com.kidsmoke.Neighbourly",
+                                            "project_id":Constants.projectId,
                                             "to":token,
                                             "priority":"high",
                                             ]
             
-            let url = URL(string: "https://fcm.googleapis.com/fcm/send")
+            let url = URL(string: Constants.Firebase.cloudMessagingUrl)
             let session = URLSession.shared
             var request = URLRequest(url: url! as URL)
             
@@ -246,8 +246,8 @@ class ItemCollectionViewController: UICollectionViewController, UICollectionView
             }
             
             
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.addValue("key=AIzaSyBPRqwey2B-KRiDN6_jK3JZPSA43Of7f4U", forHTTPHeaderField: "Authorization")
+            request.addValue("application/json", forHTTPHeaderField: Constants.Headers.ContentType)
+            request.addValue(Constants.Firebase.cloudMessagingKey, forHTTPHeaderField: Constants.Headers.Authorization)
             
             
             let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in

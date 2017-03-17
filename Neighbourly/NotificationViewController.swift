@@ -335,12 +335,12 @@ class NotificationViewController: UITableViewController {
                                         "badge": "1"
                                     ]
                                     let parameters: [String:Any] = ["notification":notification,
-                                                                    "project_id":"com.kidsmoke.Neighbourly",
+                                                                    "project_id":Constants.projectId,
                                                                     "to":token,
                                                                     "priority":"high",
                                                                     ]
                                     
-                                    let url = URL(string: "https://fcm.googleapis.com/fcm/send")
+                                    let url = URL(string: Constants.Firebase.cloudMessagingUrl)
                                     let session = URLSession.shared
                                     var request = URLRequest(url: url! as URL)
                                     
@@ -353,34 +353,26 @@ class NotificationViewController: UITableViewController {
                                     }
                                     
                                     
-                                    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-                                    request.addValue("key=AIzaSyBPRqwey2B-KRiDN6_jK3JZPSA43Of7f4U", forHTTPHeaderField: "Authorization")
+                                    request.addValue("application/json", forHTTPHeaderField: Constants.Headers.ContentType)
+                                    request.addValue(Constants.Firebase.cloudMessagingKey, forHTTPHeaderField: Constants.Headers.Authorization)
                                     
                                     
                                     let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                                         
-                                        guard error == nil else { return }
-                                        
-                                        guard let data = data else { return }
-                                        
-                                        do {
-                                            //create json object from data
-                                            if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
-                                                print(json)
-                                                // handle json...
-                                            }
-                                        } catch let error {
+                                        if let error = error {
                                             print(error.localizedDescription)
+                                            return
+                                        } else if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
+                                            // check for http errors
+                                            print("Status Code should be 200, but is \(httpStatus.statusCode)")
+                                            print("Response = \(response!)")
                                         }
-                                        
                                         
                                     })
                                     
                                     task.resume()
                                     
-                                    
-                                    
-                                    
+
                                     self.ref.updateChildValues(childUpdates)
                                     self.declineTrade(indexPath: indexPath)
                                     
@@ -391,9 +383,6 @@ class NotificationViewController: UITableViewController {
                             
                             
                         })
-                        
-                        
-                        
                         
                     })
                     
@@ -407,7 +396,6 @@ class NotificationViewController: UITableViewController {
     
     func declineTrade(indexPath: IndexPath) {
         
-        // let indexPath = tableView?.indexPath(for: cell)
         
         let notification = userNotifications[indexPath.row]
         
@@ -439,12 +427,8 @@ class NotificationViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell", for: indexPath) as! NotificationTableViewCell
         
-        
         let currentItem = userNotifications[indexPath.row]["currentItem"] as! Item
         let potentialItem = userNotifications[indexPath.row]["potentialItem"] as! Item
-        //let postKey = userNotifications[indexPath.row]["postKey"] as! String
-        
-        //let notificationID = notifications[indexPath.row]["notificationID"] as! String
         
         
         cell.currentItemImageView.loadImage(urlString: currentItem.imageURL)
@@ -456,14 +440,12 @@ class NotificationViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let accept = UITableViewRowAction(style: .normal, title: "Accept") { action, index in
-            //let cell = tableView.cellForRow(at: index) as! NotificationTableViewCell
             self.acceptTrade(indexPath: index)
         }
         accept.backgroundColor = .green
         
         let decline = UITableViewRowAction(style: .normal, title: "Decline") { action, index in
             
-            //let cell = tableView.cellForRow(at: index) as! NotificationTableViewCell
             self.declineTrade(indexPath: index)
             
         }

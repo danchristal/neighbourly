@@ -41,8 +41,8 @@ class User: NSObject, JSONAble {
     }
 
     
-    func getImageUrl() -> String? {
-        if (hasImage){
+    func getImageUrl() -> String? { //should return URL? not String?
+        if hasImage {
             return "\(imageUrl!)"
         }
         return nil

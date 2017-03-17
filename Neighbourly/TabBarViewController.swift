@@ -49,7 +49,7 @@ class TabBarViewController: UITabBarController {
     func configureView() {
         
         // Change the font and size of nav bar text
-        if let navBarFont = UIFont(name: "AmaticSC-Bold", size: 40.0) {
+        if let navBarFont = UIFont(name: Constants.FontNames.AmaticSCBold, size: 40.0) {
             let navBarAttributesDictionary: [String: Any]? = [
                 NSForegroundColorAttributeName: UIColor.black,
                 NSFontAttributeName: navBarFont

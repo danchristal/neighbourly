@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 extension UIImageView {
     
     func loadImage(urlString: String) {
@@ -31,7 +29,6 @@ extension UIImageView {
                 print(error.localizedDescription)
                 return
             }
-            
             
             guard let data = try? Data(contentsOf: url!) else { return }
             DispatchQueue.main.async {

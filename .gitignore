@@ -1,7 +1,6 @@
 .DS_store
 /Pods
 /GoogleService-Info.plist
-/*.*~
 *.xcuserstate
 *.xcuserdata/*.*~
 *.xcworkspace

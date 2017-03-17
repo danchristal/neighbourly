@@ -1,9 +1,10 @@
-ls/.DS_store
+.DS_store
 /Pods
 /GoogleService-Info.plist
 /*.*~
-*.xcuserstate~
+*.xcuserstate
 *.xcuserdata/*.*
+*.xcworkspace
 *.p12
 *.cer
 Constants.swift

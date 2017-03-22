@@ -16,6 +16,7 @@
 		D9123DE11DB569F80096A2AE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9123DE01DB569F80096A2AE /* Item.swift */; };
 		D929BF0E1DC2A19F00964AE7 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D929BF0D1DC2A19F00964AE7 /* NotificationViewController.swift */; };
 		D929BF101DC2C3C100964AE7 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D929BF0F1DC2C3C100964AE7 /* NotificationTableViewCell.swift */; };
+		D94EE4AD1E7CA159000BA4CE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94EE4AC1E7CA159000BA4CE /* Constants.swift */; };
 		D95329BD1E72093E001E4909 /* AmaticSC-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D95329BC1E720886001E4909 /* AmaticSC-Bold.ttf */; };
 		D95C7C0C1DC8699500830179 /* MyItemsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C7C0B1DC8699500830179 /* MyItemsTableViewController.swift */; };
 		D95C7C0E1DC86BF000830179 /* MyItemsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C7C0D1DC86BF000830179 /* MyItemsTableViewCell.swift */; };
@@ -33,7 +34,6 @@
 		D99D187F1DC0275500A284BC /* TradeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D187E1DC0275500A284BC /* TradeListViewController.swift */; };
 		D99D18811DC0287200A284BC /* TradeListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D18801DC0287200A284BC /* TradeListCollectionViewCell.swift */; };
 		D99D18851DC1363100A284BC /* CellHasDownloadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D18841DC1363100A284BC /* CellHasDownloadTask.swift */; };
-		D9AA90601E7B4B5A00D37357 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AA905F1E7B4B5A00D37357 /* Constants.swift */; };
 		D9CAE86F1DBEC3EF0042E005 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CAE86E1DBEC3EF0042E005 /* UIImageView.swift */; };
 		D9CF2E571DC7DCFC00115FAC /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF2E561DC7DCFC00115FAC /* SearchTableViewController.swift */; };
 		D9CF2E591DC7EC3D00115FAC /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF2E581DC7EC3D00115FAC /* SearchTableViewCell.swift */; };
@@ -55,6 +55,7 @@
 		D929BF0D1DC2A19F00964AE7 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		D929BF0F1DC2C3C100964AE7 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		D94EC5D61DC1829900ABB1A3 /* com.kidsmoke.Neighbourly.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = com.kidsmoke.Neighbourly.p12; sourceTree = "<group>"; };
+		D94EE4AC1E7CA159000BA4CE /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D95329BC1E720886001E4909 /* AmaticSC-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AmaticSC-Bold.ttf"; sourceTree = "<group>"; };
 		D95C7C0B1DC8699500830179 /* MyItemsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyItemsTableViewController.swift; sourceTree = "<group>"; };
 		D95C7C0D1DC86BF000830179 /* MyItemsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyItemsTableViewCell.swift; sourceTree = "<group>"; };
@@ -72,7 +73,6 @@
 		D99D187E1DC0275500A284BC /* TradeListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeListViewController.swift; sourceTree = "<group>"; };
 		D99D18801DC0287200A284BC /* TradeListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeListCollectionViewCell.swift; sourceTree = "<group>"; };
 		D99D18841DC1363100A284BC /* CellHasDownloadTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellHasDownloadTask.swift; sourceTree = "<group>"; };
-		D9AA905F1E7B4B5A00D37357 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D9CAE86D1DBEA9E80042E005 /* Neighbourly.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Neighbourly.entitlements; sourceTree = "<group>"; };
 		D9CAE86E1DBEC3EF0042E005 /* UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		D9CF2E561DC7DCFC00115FAC /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
@@ -178,7 +178,7 @@
 				D9123DE01DB569F80096A2AE /* Item.swift */,
 				D99D18741DBECE6400A284BC /* User.swift */,
 				D99D187A1DBFF58900A284BC /* JSONAble.swift */,
-				D9AA905F1E7B4B5A00D37357 /* Constants.swift */,
+				D94EE4AC1E7CA159000BA4CE /* Constants.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -345,6 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D94EE4AD1E7CA159000BA4CE /* Constants.swift in Sources */,
 				D99B88531DB69EF100CE9912 /* LoginViewController.swift in Sources */,
 				D9123DE11DB569F80096A2AE /* Item.swift in Sources */,
 				D9123DDD1DB55A5F0096A2AE /* ItemCollectionViewCell.swift in Sources */,
@@ -352,7 +353,6 @@
 				D98B11771DB68CF50050FEA6 /* ItemDetailViewController.swift in Sources */,
 				D98718BC1DBE8B0800D12ECE /* TabBarViewController.swift in Sources */,
 				D9CAE86F1DBEC3EF0042E005 /* UIImageView.swift in Sources */,
-				D9AA90601E7B4B5A00D37357 /* Constants.swift in Sources */,
 				D97634691DB94619004BAE4D /* LocationManager.swift in Sources */,
 				D99D18791DBEDCA700A284BC /* LogoutTableViewCell.swift in Sources */,
 				D99D18811DC0287200A284BC /* TradeListCollectionViewCell.swift in Sources */,
